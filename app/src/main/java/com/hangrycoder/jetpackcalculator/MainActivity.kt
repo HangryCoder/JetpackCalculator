@@ -93,7 +93,7 @@ fun Calculator() {
             modifier = Modifier
                 .fillMaxSize()
                 .weight(0.7f)
-                .background(Color.Red)
+                .padding(0.dp, 8.dp, 0.dp, 16.dp)
         ) {
             Buttons()
         }
@@ -129,24 +129,35 @@ fun Buttons() {
         numberButton4Row()
     }*/
 
-    /*LazyColumn {
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(4),
+        modifier = Modifier.padding(16.dp, 0.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+    ) {
         items(buttonsList) {
-            operationButton(
+            Button(
                 buttonDetail = it,
                 onClick = { },
                 modifier = Modifier.padding(10.dp)
             )
         }
-    }*/
+    }
+}
 
-    LazyVerticalGrid(columns = GridCells.Fixed(4)) {
-        items(buttonsList) {
-            operationButton(
-                buttonDetail = it,
-                onClick = { },
-                modifier = Modifier.padding(10.dp)
-            )
-        }
+@Composable
+fun Button(buttonDetail: CalculatorButton, onClick: () -> Unit, modifier: Modifier) {
+    val backgroundColor =
+        if (buttonDetail.buttonType == ButtonType.Operation) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.primary
+
+    TextButton(
+        onClick = {},
+        modifier = Modifier
+            .height(100.dp)
+            //.weight(1f)
+            .background(backgroundColor)
+    ) {
+        Text(text = buttonDetail.title, color = MaterialTheme.colorScheme.onPrimary)
     }
 }
 
@@ -256,21 +267,6 @@ fun numberButton4Row() {
     }
 }
 
-
-@Composable
-fun operationButton(buttonDetail: CalculatorButton, onClick: () -> Unit, modifier: Modifier) {
-    val backgroundColor =
-        if (buttonDetail.buttonType == ButtonType.Operation) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.primary
-
-    TextButton(
-        onClick = {},
-        modifier = Modifier
-            //.weight(1f)
-            .background(backgroundColor)
-    ) {
-        Text(text = buttonDetail.title, color = MaterialTheme.colorScheme.onPrimary)
-    }
-}
 
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {
