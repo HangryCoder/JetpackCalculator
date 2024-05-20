@@ -4,20 +4,25 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -44,46 +49,64 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun Calculator() {
     Column {
-        Display()
-        Buttons()
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .weight(0.3f)
+        ) {
+            Display()
+        }
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .weight(0.7f)
+                .background(Color.Red)
+        ) {
+
+        }
     }
 }
 
 @Composable
 fun Display() {
-    /* Box(
-         modifier = Modifier
-             .padding(8.dp)
-             .height(80.dp)
-             .fillMaxWidth()
-             .background(color = MaterialTheme.colorScheme.surface)
-
-     ) {*/
-    Text(
-        text = "Rs. 1500",
-        textAlign = TextAlign.End,
-        color = MaterialTheme.colorScheme.onSecondary,
-        modifier =
-        Modifier
-            .padding(8.dp)
-            .height(80.dp)
-            .fillMaxWidth()
-           // .align(Alignment.Bottom)
+    Box(
+        modifier = Modifier
+            .border(8.dp, MaterialTheme.colorScheme.background)
+            .fillMaxSize()
             .background(color = MaterialTheme.colorScheme.surface)
-    )
-    //}
+    ) {
+        Text(
+            text = "Rs. 1500",
+            color = MaterialTheme.colorScheme.onSecondary,
+            modifier = Modifier
+                .padding(16.dp)
+                .align(Alignment.BottomEnd)
+        )
+    }
+
 }
 
 @Composable
 fun Buttons() {
-    operationButtonsRow()
+    Column {
+        operationButtonsRow()
+        numberButton1Row()
+        numberButton2Row()
+        numberButton3Row()
+        numberButton4Row()
+    }
 }
 
 @Composable
 fun operationButtonsRow() {
-    Row(modifier = Modifier.fillMaxSize(), horizontalArrangement = Arrangement.SpaceEvenly) {
-        Button(onClick = {}, modifier = Modifier.weight(1f)) {
-            Text(text = "A/C",  modifier = Modifier.weight(1f).clickable {  })
+    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
+        TextButton(
+            onClick = {},
+            modifier = Modifier
+                .weight(1f)
+                .background(MaterialTheme.colorScheme.secondary)
+        ) {
+            Text(text = "A/C")
         }
 
         Button(onClick = {}, modifier = Modifier.weight(1f)) {
@@ -101,11 +124,98 @@ fun operationButtonsRow() {
 }
 
 @Composable
-fun operationButton(onClick: () -> Unit, modifier: Modifier) {
-    Button(onClick = onClick, modifier = modifier) {
-        // Text(text = "+", modifier = Modifier.background(MaterialTheme.colorScheme.))
+fun numberButton1Row() {
+    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
+        Button(onClick = {}, modifier = Modifier.weight(1f)) {
+            Text(text = "7")
+        }
+
+        Button(onClick = {}, modifier = Modifier.weight(1f)) {
+            Text(text = "8")
+        }
+
+        Button(onClick = {}, modifier = Modifier.weight(1f)) {
+            Text(text = "9")
+        }
+
+        Button(onClick = {}, modifier = Modifier.weight(1f)) {
+            Text(text = "x")
+        }
     }
 }
+
+@Composable
+fun numberButton2Row() {
+    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
+        Button(onClick = {}, modifier = Modifier.weight(1f)) {
+            Text(text = "4")
+        }
+
+        Button(onClick = {}, modifier = Modifier.weight(1f)) {
+            Text(text = "5")
+        }
+
+        Button(onClick = {}, modifier = Modifier.weight(1f)) {
+            Text(text = "6")
+        }
+
+        Button(onClick = {}, modifier = Modifier.weight(1f)) {
+            Text(text = "-")
+        }
+    }
+}
+
+@Composable
+fun numberButton3Row() {
+    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
+        Button(onClick = {}, modifier = Modifier.weight(1f)) {
+            Text(text = "1")
+        }
+
+        Button(onClick = {}, modifier = Modifier.weight(1f)) {
+            Text(text = "2")
+        }
+
+        Button(onClick = {}, modifier = Modifier.weight(1f)) {
+            Text(text = "3")
+        }
+
+        Button(onClick = {}, modifier = Modifier.weight(1f)) {
+            Text(text = "+")
+        }
+    }
+}
+
+@Composable
+fun numberButton4Row() {
+    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
+        Button(onClick = {}, modifier = Modifier.weight(0.5f)) {
+            Text(text = "0")
+        }
+
+        Button(onClick = {}, modifier = Modifier.weight(0.5f)) {
+            Text(text = ".")
+        }
+
+        Button(onClick = {}, modifier = Modifier.weight(1f)) {
+            Text(text = "=")
+        }
+    }
+}
+
+
+/*@Composable
+fun operationButton(onClick: () -> Unit, modifier: Modifier) {
+    TextButton(
+        onClick = {},
+        modifier = Modifier
+            .weight(1f)
+            .background(MaterialTheme.colorScheme.secondary)
+    ) {
+        Text(text = "A/C")
+    }
+
+}*/
 
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {
