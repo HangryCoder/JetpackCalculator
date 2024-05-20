@@ -21,10 +21,25 @@ private val DarkColorScheme = darkColorScheme(
     tertiary = Pink80
 )
 
+/*
+* val screenBg = Color(0xFFFFFFFF)
+val operationButtonBg = Color(0xFFEFE6DD)
+val numberButtonBg = Color(0xFFF9F4EF)
+val equalsButtonBg = Color(0xFFFBD54D)
+val buttonText = Color(0xFF121212)
+val displayBg = Color(0xFF232723)
+val displayText = Color(0xFFF2EED1)
+*
+* */
+
 private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
+    primary = numberButtonBg,
+    secondary = operationButtonBg,
+    tertiary = equalsButtonBg,
+    background = screenBg,
+    surface = displayBg,
+    onPrimary = buttonText,
+    onSecondary = displayText,
 
     /* Other default colors to override
     background = Color(0xFFFFFBFE),
@@ -44,7 +59,8 @@ fun JetpackCalculatorTheme(
     dynamicColor: Boolean = true,
     content: @Composable () -> Unit
 ) {
-    val colorScheme = when {
+    val colorScheme = LightColorScheme
+    /*val colorScheme = when {
         dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
             val context = LocalContext.current
             if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
@@ -52,7 +68,7 @@ fun JetpackCalculatorTheme(
 
         darkTheme -> DarkColorScheme
         else -> LightColorScheme
-    }
+    }*/
     val view = LocalView.current
     if (!view.isInEditMode) {
         SideEffect {
