@@ -14,6 +14,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -45,6 +47,33 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+private val buttonsList = listOf(
+    CalculatorButton(id = 0, title = "A/C", buttonType = ButtonType.Operation),
+    CalculatorButton(id = 1, title = "+/-", buttonType = ButtonType.Operation),
+    CalculatorButton(id = 2, title = "%", buttonType = ButtonType.Operation),
+    CalculatorButton(id = 3, title = "÷", buttonType = ButtonType.Operation),
+
+    CalculatorButton(id = 4, title = "7", buttonType = ButtonType.Number),
+    CalculatorButton(id = 5, title = "8", buttonType = ButtonType.Number),
+    CalculatorButton(id = 6, title = "9", buttonType = ButtonType.Number),
+    CalculatorButton(id = 7, title = "x", buttonType = ButtonType.Operation),
+
+    CalculatorButton(id = 8, title = "4", buttonType = ButtonType.Number),
+    CalculatorButton(id = 9, title = "5", buttonType = ButtonType.Number),
+    CalculatorButton(id = 10, title = "6", buttonType = ButtonType.Number),
+    CalculatorButton(id = 11, title = "-", buttonType = ButtonType.Operation),
+
+
+    CalculatorButton(id = 12, title = "1", buttonType = ButtonType.Number),
+    CalculatorButton(id = 13, title = "2", buttonType = ButtonType.Number),
+    CalculatorButton(id = 14, title = "3", buttonType = ButtonType.Number),
+    CalculatorButton(id = 15, title = "+", buttonType = ButtonType.Operation),
+
+    CalculatorButton(id = 16, title = "0", buttonType = ButtonType.Number),
+    CalculatorButton(id = 17, title = ".", buttonType = ButtonType.Number),
+    CalculatorButton(id = 18, title = "=", buttonType = ButtonType.Operation),
+)
+
 @Preview(showBackground = true)
 @Composable
 fun Calculator() {
@@ -62,7 +91,7 @@ fun Calculator() {
                 .weight(0.7f)
                 .background(Color.Red)
         ) {
-
+            Buttons()
         }
     }
 }
@@ -88,12 +117,30 @@ fun Display() {
 
 @Composable
 fun Buttons() {
-    Column {
+    /*Column {
         operationButtonsRow()
         numberButton1Row()
         numberButton2Row()
         numberButton3Row()
         numberButton4Row()
+    }*/
+
+    LazyColumn {
+        items(buttonsList) {
+            if (it.buttonType == ButtonType.Operation) {
+                operationButton(
+                    buttonDetail = it,
+                    onClick = { /*TODO*/ },
+                    modifier = Modifier.padding(10.dp)
+                )
+            } else {
+                operationButton(
+                    buttonDetail = it,
+                    onClick = { /*TODO*/ },
+                    modifier = Modifier.padding(10.dp)
+                )
+            }
+        }
     }
 }
 
@@ -204,18 +251,17 @@ fun numberButton4Row() {
 }
 
 
-/*@Composable
-fun operationButton(onClick: () -> Unit, modifier: Modifier) {
+@Composable
+fun operationButton(buttonDetail: CalculatorButton, onClick: () -> Unit, modifier: Modifier) {
     TextButton(
         onClick = {},
         modifier = Modifier
-            .weight(1f)
+            //.weight(1f)
             .background(MaterialTheme.colorScheme.secondary)
     ) {
-        Text(text = "A/C")
+        Text(text = buttonDetail.title, color = MaterialTheme.colorScheme.onPrimary)
     }
-
-}*/
+}
 
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {
