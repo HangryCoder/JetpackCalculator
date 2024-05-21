@@ -7,9 +7,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
@@ -20,6 +18,10 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.Font
@@ -53,22 +55,22 @@ private val buttonsList = listOf(
     CalculatorButton(id = 2, title = "%", buttonType = ButtonType.Operation),
     CalculatorButton(id = 3, title = "÷", buttonType = ButtonType.Operation),
 
-    CalculatorButton(id = 4, title = "7", buttonType = ButtonType.Number),
-    CalculatorButton(id = 5, title = "8", buttonType = ButtonType.Number),
-    CalculatorButton(id = 6, title = "9", buttonType = ButtonType.Number),
+    CalculatorButton(id = 4, title = "7", buttonType = ButtonType.Number, 7.0),
+    CalculatorButton(id = 5, title = "8", buttonType = ButtonType.Number, 8.0),
+    CalculatorButton(id = 6, title = "9", buttonType = ButtonType.Number, 9.0),
     CalculatorButton(id = 7, title = "x", buttonType = ButtonType.Operation),
 
-    CalculatorButton(id = 8, title = "4", buttonType = ButtonType.Number),
-    CalculatorButton(id = 9, title = "5", buttonType = ButtonType.Number),
-    CalculatorButton(id = 10, title = "6", buttonType = ButtonType.Number),
+    CalculatorButton(id = 8, title = "4", buttonType = ButtonType.Number, 4.0),
+    CalculatorButton(id = 9, title = "5", buttonType = ButtonType.Number, 5.0),
+    CalculatorButton(id = 10, title = "6", buttonType = ButtonType.Number, 6.0),
     CalculatorButton(id = 11, title = "-", buttonType = ButtonType.Operation),
 
-    CalculatorButton(id = 12, title = "1", buttonType = ButtonType.Number),
-    CalculatorButton(id = 13, title = "2", buttonType = ButtonType.Number),
-    CalculatorButton(id = 14, title = "3", buttonType = ButtonType.Number),
+    CalculatorButton(id = 12, title = "1", buttonType = ButtonType.Number, 1.0),
+    CalculatorButton(id = 13, title = "2", buttonType = ButtonType.Number, 2.0),
+    CalculatorButton(id = 14, title = "3", buttonType = ButtonType.Number, 3.0),
     CalculatorButton(id = 15, title = "+", buttonType = ButtonType.Operation),
 
-    CalculatorButton(id = 16, title = "0", buttonType = ButtonType.Number),
+    CalculatorButton(id = 16, title = "0", buttonType = ButtonType.Number, 0.0),
     CalculatorButton(id = 17, title = ".", buttonType = ButtonType.Number),
     CalculatorButton(id = 18, title = "=", buttonType = ButtonType.Calculation),
 )
@@ -76,13 +78,16 @@ private val buttonsList = listOf(
 @Preview(showBackground = true)
 @Composable
 fun Calculator() {
+
+    var calculatedValue by remember { mutableStateOf(0.0) }
+
     Column(modifier = Modifier.padding(16.dp)) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .weight(0.3f)
         ) {
-            Display()
+            Display(calculatedValue)
         }
         Column(
             modifier = Modifier
@@ -96,7 +101,7 @@ fun Calculator() {
 }
 
 @Composable
-fun Display() {
+fun Display(value: Double) {
     val fontFamily = FontFamily(Font(R.font.digital_regular, FontWeight.Normal))
     Box(
         modifier = Modifier
@@ -104,7 +109,7 @@ fun Display() {
             .background(color = MaterialTheme.colorScheme.surface)
     ) {
         Text(
-            text = "1500",
+            text = value.toString(),
             color = MaterialTheme.colorScheme.onSecondary,
             fontSize = TextUnit(60f, TextUnitType.Sp),
             fontFamily = fontFamily,
@@ -126,14 +131,19 @@ fun Buttons() {
         items(buttonsList.dropLast(1), key = { it.id }) {
             Button(
                 buttonDetail = it,
-                onClick = { }
+                onClick = {
+
+                }
             )
         }
 
         item(span = { GridItemSpan(2) }) {
+            val buttonDetail = buttonsList.last()
             Button(
-                buttonDetail = buttonsList.last(),
-                onClick = { }
+                buttonDetail = buttonDetail,
+                onClick = {
+                    //Calculate operation
+                }
             )
         }
     }
@@ -150,7 +160,7 @@ fun Button(buttonDetail: CalculatorButton, onClick: () -> Unit) {
     TextButton(
         onClick = onClick,
         modifier = Modifier
-            // .fillMaxHeight()
+            //.fillMaxHeight()
             //.height(100.dp)
             .background(backgroundColor)
     ) {
@@ -162,11 +172,4 @@ fun Button(buttonDetail: CalculatorButton, onClick: () -> Unit) {
             color = MaterialTheme.colorScheme.onPrimary
         )
     }
-}
-
-data class CalculatorButton(val id: Int, val title: String, val buttonType: ButtonType)
-enum class ButtonType {
-    Number,
-    Operation,
-    Calculation,
 }

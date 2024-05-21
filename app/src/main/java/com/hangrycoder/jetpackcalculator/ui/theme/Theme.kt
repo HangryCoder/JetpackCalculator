@@ -21,17 +21,6 @@ private val DarkColorScheme = darkColorScheme(
     tertiary = Pink80
 )
 
-/*
-* val screenBg = Color(0xFFFFFFFF)
-val operationButtonBg = Color(0xFFEFE6DD)
-val numberButtonBg = Color(0xFFF9F4EF)
-val equalsButtonBg = Color(0xFFFBD54D)
-val buttonText = Color(0xFF121212)
-val displayBg = Color(0xFF232723)
-val displayText = Color(0xFFF2EED1)
-*
-* */
-
 private val LightColorScheme = lightColorScheme(
     primary = numberButtonBg,
     secondary = operationButtonBg,
