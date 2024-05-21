@@ -27,13 +27,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.hangrycoder.jetpackcalculator.ui.theme.JetpackCalculatorTheme
 
 class MainActivity : ComponentActivity() {
+
+    //private val viewModel by viewModels<CalculatorViewModel>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -58,7 +61,7 @@ private val buttonsList = listOf(
     CalculatorButton(id = 4, title = "7", buttonType = ButtonType.Number, 7.0),
     CalculatorButton(id = 5, title = "8", buttonType = ButtonType.Number, 8.0),
     CalculatorButton(id = 6, title = "9", buttonType = ButtonType.Number, 9.0),
-    CalculatorButton(id = 7, title = "x", buttonType = ButtonType.Operation),
+    CalculatorButton(id = 7, title = "×", buttonType = ButtonType.Operation),
 
     CalculatorButton(id = 8, title = "4", buttonType = ButtonType.Number, 4.0),
     CalculatorButton(id = 9, title = "5", buttonType = ButtonType.Number, 5.0),
@@ -75,11 +78,10 @@ private val buttonsList = listOf(
     CalculatorButton(id = 18, title = "=", buttonType = ButtonType.Calculation),
 )
 
-@Preview(showBackground = true)
 @Composable
-fun Calculator() {
+fun Calculator(viewModel: CalculatorViewModel = viewModel()) {
 
-    var calculatedValue by remember { mutableStateOf(0.0) }
+    var calculatedValue by remember { mutableStateOf("") }
 
     Column(modifier = Modifier.padding(16.dp)) {
         Column(
@@ -95,13 +97,15 @@ fun Calculator() {
                 .weight(0.7f)
                 .padding(0.dp, 16.dp, 0.dp, 16.dp)
         ) {
-            Buttons()
+            Buttons(onClick = {
+                calculatedValue += it
+            })
         }
     }
 }
 
 @Composable
-fun Display(value: Double) {
+fun Display(value: String) {
     val fontFamily = FontFamily(Font(R.font.digital_regular, FontWeight.Normal))
     Box(
         modifier = Modifier
@@ -109,7 +113,7 @@ fun Display(value: Double) {
             .background(color = MaterialTheme.colorScheme.surface)
     ) {
         Text(
-            text = value.toString(),
+            text = value,
             color = MaterialTheme.colorScheme.onSecondary,
             fontSize = TextUnit(60f, TextUnitType.Sp),
             fontFamily = fontFamily,
@@ -122,7 +126,7 @@ fun Display(value: Double) {
 }
 
 @Composable
-fun Buttons() {
+fun Buttons(onClick: (String) -> Unit) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(4),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -132,7 +136,7 @@ fun Buttons() {
             Button(
                 buttonDetail = it,
                 onClick = {
-
+                    onClick(it.title)
                 }
             )
         }
