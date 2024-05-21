@@ -83,7 +83,7 @@ private val buttonsList = listOf(
 @Preview(showBackground = true)
 @Composable
 fun Calculator() {
-    Column {
+    Column(modifier = Modifier.padding(16.dp)) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -95,7 +95,7 @@ fun Calculator() {
             modifier = Modifier
                 .fillMaxSize()
                 .weight(0.7f)
-                .padding(0.dp, 8.dp, 0.dp, 16.dp)
+                .padding(0.dp, 16.dp, 0.dp, 16.dp)
         ) {
             Buttons()
         }
@@ -106,7 +106,6 @@ fun Calculator() {
 fun Display() {
     Box(
         modifier = Modifier
-            .border(8.dp, MaterialTheme.colorScheme.background)
             .fillMaxSize()
             .background(color = MaterialTheme.colorScheme.surface)
     ) {
@@ -115,7 +114,7 @@ fun Display() {
             color = MaterialTheme.colorScheme.onSecondary,
             fontSize = TextUnit(36f, TextUnitType.Sp),
             modifier = Modifier
-                .padding(24.dp)
+                .padding(16.dp)
                 .align(Alignment.BottomEnd)
         )
     }
@@ -126,22 +125,20 @@ fun Display() {
 fun Buttons() {
     LazyVerticalGrid(
         columns = GridCells.Fixed(4),
-        modifier = Modifier.padding(16.dp, 0.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         items(buttonsList) {
             Button(
                 buttonDetail = it,
-                onClick = { },
-                modifier = Modifier.padding(10.dp)
+                onClick = { }
             )
         }
     }
 }
 
 @Composable
-fun Button(buttonDetail: CalculatorButton, onClick: () -> Unit, modifier: Modifier) {
+fun Button(buttonDetail: CalculatorButton, onClick: () -> Unit) {
     val backgroundColor =
         if (buttonDetail.buttonType == ButtonType.Operation) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.primary
 
