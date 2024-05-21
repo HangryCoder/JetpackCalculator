@@ -7,16 +7,14 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -24,6 +22,9 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
@@ -96,6 +97,7 @@ fun Calculator() {
 
 @Composable
 fun Display() {
+    val fontFamily = FontFamily(Font(R.font.digital_regular, FontWeight.Normal))
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -104,7 +106,8 @@ fun Display() {
         Text(
             text = "1500",
             color = MaterialTheme.colorScheme.onSecondary,
-            fontSize = TextUnit(36f, TextUnitType.Sp),
+            fontSize = TextUnit(60f, TextUnitType.Sp),
+            fontFamily = fontFamily,
             modifier = Modifier
                 .padding(16.dp)
                 .align(Alignment.BottomEnd)
@@ -147,12 +150,15 @@ fun Button(buttonDetail: CalculatorButton, onClick: () -> Unit) {
     TextButton(
         onClick = onClick,
         modifier = Modifier
-            .height(100.dp)
+            // .fillMaxHeight()
+            //.height(100.dp)
             .background(backgroundColor)
     ) {
         Text(
             text = buttonDetail.title,
             fontSize = TextUnit(24f, TextUnitType.Sp),
+            modifier = Modifier.padding(8.dp, 8.dp),
+            fontFamily = FontFamily(Font(R.font.noto_sans_regular, FontWeight.Normal)),
             color = MaterialTheme.colorScheme.onPrimary
         )
     }
