@@ -77,7 +77,7 @@ private val buttonsList = listOf(
 
     CalculatorButton(id = 16, title = "0", buttonType = ButtonType.Number),
     CalculatorButton(id = 17, title = ".", buttonType = ButtonType.Number),
-    CalculatorButton(id = 18, title = "=", buttonType = ButtonType.Operation),
+    CalculatorButton(id = 18, title = "=", buttonType = ButtonType.Calculation),
 )
 
 @Preview(showBackground = true)
@@ -129,10 +129,17 @@ fun Buttons() {
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         items(buttonsList) {
-            Button(
-                buttonDetail = it,
-                onClick = { }
-            )
+            if (it.buttonType == ButtonType.Calculation) {
+                AccentButton(
+                    buttonDetail = it,
+                    onClick = { }
+                )
+            } else {
+                Button(
+                    buttonDetail = it,
+                    onClick = { }
+                )
+            }
         }
     }
 }
@@ -143,7 +150,7 @@ fun Button(buttonDetail: CalculatorButton, onClick: () -> Unit) {
         if (buttonDetail.buttonType == ButtonType.Operation) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.primary
 
     TextButton(
-        onClick = {},
+        onClick = onClick,
         modifier = Modifier
             .height(100.dp)
             //.weight(1f)
@@ -158,91 +165,19 @@ fun Button(buttonDetail: CalculatorButton, onClick: () -> Unit) {
 }
 
 @Composable
-fun operationButtonsRow() {
-    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
-        TextButton(
-            onClick = {},
-            modifier = Modifier
-                .weight(1f)
-                .background(MaterialTheme.colorScheme.secondary)
-        ) {
-            Text(text = "A/C")
-        }
-
-        Button(onClick = {}, modifier = Modifier.weight(1f)) {
-            Text(text = "+/-")
-        }
-
-        Button(onClick = {}, modifier = Modifier.weight(1f)) {
-            Text(text = "%")
-        }
-
-        Button(onClick = {}, modifier = Modifier.weight(1f)) {
-            Text(text = "÷")
-        }
-    }
-}
-
-@Composable
-fun numberButton1Row() {
-    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
-        Button(onClick = {}, modifier = Modifier.weight(1f)) {
-            Text(text = "7")
-        }
-
-        Button(onClick = {}, modifier = Modifier.weight(1f)) {
-            Text(text = "8")
-        }
-
-        Button(onClick = {}, modifier = Modifier.weight(1f)) {
-            Text(text = "9")
-        }
-
-        Button(onClick = {}, modifier = Modifier.weight(1f)) {
-            Text(text = "x")
-        }
-    }
-}
-
-@Composable
-fun numberButton2Row() {
-    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
-        Button(onClick = {}, modifier = Modifier.weight(1f)) {
-            Text(text = "4")
-        }
-
-        Button(onClick = {}, modifier = Modifier.weight(1f)) {
-            Text(text = "5")
-        }
-
-        Button(onClick = {}, modifier = Modifier.weight(1f)) {
-            Text(text = "6")
-        }
-
-        Button(onClick = {}, modifier = Modifier.weight(1f)) {
-            Text(text = "-")
-        }
-    }
-}
-
-@Composable
-fun numberButton3Row() {
-    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
-        Button(onClick = {}, modifier = Modifier.weight(1f)) {
-            Text(text = "1")
-        }
-
-        Button(onClick = {}, modifier = Modifier.weight(1f)) {
-            Text(text = "2")
-        }
-
-        Button(onClick = {}, modifier = Modifier.weight(1f)) {
-            Text(text = "3")
-        }
-
-        Button(onClick = {}, modifier = Modifier.weight(1f)) {
-            Text(text = "+")
-        }
+fun AccentButton(buttonDetail: CalculatorButton, onClick: () -> Unit) {
+    TextButton(
+        onClick = onClick,
+        modifier = Modifier
+            .height(100.dp)
+            .fillMaxWidth()
+            .background(MaterialTheme.colorScheme.tertiary)
+    ) {
+        Text(
+            text = buttonDetail.title,
+            fontSize = TextUnit(24f, TextUnitType.Sp),
+            color = MaterialTheme.colorScheme.onPrimary
+        )
     }
 }
 
@@ -263,25 +198,9 @@ fun numberButton4Row() {
     }
 }
 
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-//@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    JetpackCalculatorTheme {
-        Greeting("Android")
-    }
-}
-
 data class CalculatorButton(val id: Int, val title: String, val buttonType: ButtonType)
 enum class ButtonType {
     Number,
-    Operation
+    Operation,
+    Calculation,
 }
