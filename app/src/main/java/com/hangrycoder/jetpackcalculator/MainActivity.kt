@@ -120,9 +120,7 @@ fun Buttons() {
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-        items(buttonsList.dropLast(1), key = {
-            it.id
-        }) {
+        items(buttonsList.dropLast(1), key = { it.id }) {
             Button(
                 buttonDetail = it,
                 onClick = { }
@@ -130,7 +128,7 @@ fun Buttons() {
         }
 
         item(span = { GridItemSpan(2) }) {
-            AccentButton(
+            Button(
                 buttonDetail = buttonsList.last(),
                 onClick = { }
             )
@@ -140,9 +138,12 @@ fun Buttons() {
 
 @Composable
 fun Button(buttonDetail: CalculatorButton, onClick: () -> Unit) {
-    val backgroundColor =
-        if (buttonDetail.buttonType == ButtonType.Operation) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.primary
+    val backgroundColor = when (buttonDetail.buttonType) {
+        ButtonType.Number -> MaterialTheme.colorScheme.primary
+        ButtonType.Operation -> MaterialTheme.colorScheme.secondary
+        ButtonType.Calculation -> MaterialTheme.colorScheme.tertiary
 
+    }
     TextButton(
         onClick = onClick,
         modifier = Modifier
@@ -154,40 +155,6 @@ fun Button(buttonDetail: CalculatorButton, onClick: () -> Unit) {
             fontSize = TextUnit(24f, TextUnitType.Sp),
             color = MaterialTheme.colorScheme.onPrimary
         )
-    }
-}
-
-@Composable
-fun AccentButton(buttonDetail: CalculatorButton, onClick: () -> Unit) {
-    TextButton(
-        onClick = onClick,
-        modifier = Modifier
-            .height(100.dp)
-            .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.tertiary)
-    ) {
-        Text(
-            text = buttonDetail.title,
-            fontSize = TextUnit(24f, TextUnitType.Sp),
-            color = MaterialTheme.colorScheme.onPrimary
-        )
-    }
-}
-
-@Composable
-fun numberButton4Row() {
-    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
-        Button(onClick = {}, modifier = Modifier.weight(0.5f)) {
-            Text(text = "0")
-        }
-
-        Button(onClick = {}, modifier = Modifier.weight(0.5f)) {
-            Text(text = ".")
-        }
-
-        Button(onClick = {}, modifier = Modifier.weight(1f)) {
-            Text(text = "=")
-        }
     }
 }
 
