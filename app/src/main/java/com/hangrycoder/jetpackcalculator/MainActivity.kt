@@ -31,6 +31,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
 import com.hangrycoder.jetpackcalculator.ui.theme.JetpackCalculatorTheme
 
@@ -109,10 +111,11 @@ fun Display() {
             .background(color = MaterialTheme.colorScheme.surface)
     ) {
         Text(
-            text = "Rs. 1500",
+            text = "1500",
             color = MaterialTheme.colorScheme.onSecondary,
+            fontSize = TextUnit(36f, TextUnitType.Sp),
             modifier = Modifier
-                .padding(16.dp)
+                .padding(24.dp)
                 .align(Alignment.BottomEnd)
         )
     }
@@ -121,14 +124,6 @@ fun Display() {
 
 @Composable
 fun Buttons() {
-    /*Column {
-        operationButtonsRow()
-        numberButton1Row()
-        numberButton2Row()
-        numberButton3Row()
-        numberButton4Row()
-    }*/
-
     LazyVerticalGrid(
         columns = GridCells.Fixed(4),
         modifier = Modifier.padding(16.dp, 0.dp),
@@ -157,7 +152,11 @@ fun Button(buttonDetail: CalculatorButton, onClick: () -> Unit, modifier: Modifi
             //.weight(1f)
             .background(backgroundColor)
     ) {
-        Text(text = buttonDetail.title, color = MaterialTheme.colorScheme.onPrimary)
+        Text(
+            text = buttonDetail.title,
+            fontSize = TextUnit(24f, TextUnitType.Sp),
+            color = MaterialTheme.colorScheme.onPrimary
+        )
     }
 }
 
