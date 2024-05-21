@@ -69,7 +69,7 @@ private val buttonsList = listOf(
 
     CalculatorButton(id = 16, title = "0", buttonType = ButtonType.Number),
     CalculatorButton(id = 17, title = ".", buttonType = ButtonType.Number),
-    // CalculatorButton(id = 18, title = "=", buttonType = ButtonType.Calculation),
+    CalculatorButton(id = 18, title = "=", buttonType = ButtonType.Calculation),
 )
 
 @Preview(showBackground = true)
@@ -120,27 +120,18 @@ fun Buttons() {
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-        items(buttonsList) {
-            /*if (it.buttonType == ButtonType.Calculation) {
-                AccentButton(
-                    buttonDetail = it,
-                    onClick = { }
-                )
-            } else {*/
+        items(buttonsList.dropLast(1), key = {
+            it.id
+        }) {
             Button(
                 buttonDetail = it,
                 onClick = { }
             )
-            // }
         }
 
         item(span = { GridItemSpan(2) }) {
             AccentButton(
-                buttonDetail = CalculatorButton(
-                    id = 18,
-                    title = "=",
-                    buttonType = ButtonType.Calculation
-                ),
+                buttonDetail = buttonsList.last(),
                 onClick = { }
             )
         }
