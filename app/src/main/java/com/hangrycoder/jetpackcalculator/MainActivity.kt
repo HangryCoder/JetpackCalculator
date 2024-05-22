@@ -19,6 +19,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -55,7 +56,8 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun Calculator(viewModel: CalculatorViewModel = viewModel()) {
 
-    var calculatedValue by remember { mutableStateOf("") }
+    //var calculatedValue by remember { mutableStateOf("") }
+    val calculatedValue by viewModel.calculation.observeAsState()
 
     Column(modifier = Modifier.padding(16.dp)) {
         Column(
@@ -63,7 +65,7 @@ fun Calculator(viewModel: CalculatorViewModel = viewModel()) {
                 .fillMaxSize()
                 .weight(0.3f)
         ) {
-            Display(calculatedValue)
+            Display(calculatedValue!!)
         }
         Column(
             modifier = Modifier
@@ -72,7 +74,8 @@ fun Calculator(viewModel: CalculatorViewModel = viewModel()) {
                 .padding(0.dp, 16.dp, 0.dp, 16.dp)
         ) {
             Buttons(buttonsList = viewModel.buttonsList, onClick = {
-                calculatedValue += it
+               // calculatedValue += it
+                viewModel.calculateOperation(it)
             })
         }
     }
@@ -100,7 +103,7 @@ fun Display(value: String) {
 }
 
 @Composable
-fun Buttons(buttonsList: List<CalculatorButton>, onClick: (String) -> Unit) {
+fun Buttons(buttonsList: List<CalculatorButton>, onClick: (CalculatorButton) -> Unit) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(4),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -110,7 +113,7 @@ fun Buttons(buttonsList: List<CalculatorButton>, onClick: (String) -> Unit) {
             Button(
                 buttonDetail = it,
                 onClick = {
-                    onClick(it.title)
+                    onClick(it)
                 }
             )
         }
