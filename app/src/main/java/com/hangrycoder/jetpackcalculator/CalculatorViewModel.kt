@@ -32,22 +32,12 @@ class CalculatorViewModel : ViewModel() {
         CalculatorButton(id = 18, title = "=", buttonType = ButtonType.Calculation),
     )
 
-    //Convert a string of numbers as a single digit
-
-
-    //Dummy. Doesn't do anything
-    private var _calculatedValue = MutableLiveData(0.0)
-    val calculatedValue: LiveData<Double> by lazy { _calculatedValue }
-
     private var _calculation = MutableLiveData("")
     val calculation: LiveData<String> by lazy { _calculation }
 
-    //  val operators = arrayListOf<String>("+", "-", "÷", "×", "%")
-
-    val numbers = arrayListOf<Double>()
     private val operators = arrayListOf<Int>()
+    private var clearDisplay = false
 
-    //Dummy. Doesn't do anything
     fun calculateOperation(calculatorButton: CalculatorButton) {
         when (calculatorButton.buttonType) {
             ButtonType.Operation -> {
@@ -67,10 +57,16 @@ class CalculatorViewModel : ViewModel() {
             }
 
             ButtonType.Number -> {
+                if (clearDisplay) {
+                    clearDisplay = false
+                    _calculation.value = ""
+                }
                 _calculation.value = calculation.value + calculatorButton.title
             }
 
             ButtonType.Calculation -> {
+                if (calculation.value?.isEmpty() == true) return
+
                 println("Calculation")
                 val resultArray =
                     calculation.value?.split("+", "-", "÷", "×", "%")
@@ -162,6 +158,7 @@ class CalculatorViewModel : ViewModel() {
             }
         }
         _calculation.value = result.toString()
+        clearDisplay = true
         operators.clear()
     }
 }
