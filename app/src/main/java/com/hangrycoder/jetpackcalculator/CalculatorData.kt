@@ -12,3 +12,15 @@ enum class ButtonType {
     Operation,
     Calculation,
 }
+
+enum class Operation(val value: Int) {
+    Clear(0),
+    PositiveOrNegative(1),
+    Percentage(2),
+    Divide(3),
+    Multiply(7),
+    Subtract(11),
+    Addition(15),
+    Decimal(17),
+    Equal(18)
+}
