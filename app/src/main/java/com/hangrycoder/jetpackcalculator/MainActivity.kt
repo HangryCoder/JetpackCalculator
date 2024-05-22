@@ -74,7 +74,7 @@ fun Calculator(viewModel: CalculatorViewModel = viewModel()) {
                 .padding(0.dp, 16.dp, 0.dp, 16.dp)
         ) {
             Buttons(buttonsList = viewModel.buttonsList, onClick = {
-               // calculatedValue += it
+                // calculatedValue += it
                 viewModel.calculateOperation(it)
             })
         }
@@ -124,6 +124,7 @@ fun Buttons(buttonsList: List<CalculatorButton>, onClick: (CalculatorButton) -> 
                 buttonDetail = buttonDetail,
                 onClick = {
                     //Calculate operation
+                    onClick(buttonDetail)
                 }
             )
         }

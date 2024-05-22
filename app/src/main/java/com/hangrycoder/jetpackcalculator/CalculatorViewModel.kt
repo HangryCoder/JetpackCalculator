@@ -32,67 +32,95 @@ class CalculatorViewModel : ViewModel() {
         CalculatorButton(id = 18, title = "=", buttonType = ButtonType.Calculation),
     )
 
+    //Convert a string of numbers as a single digit
+
+
+    //Dummy. Doesn't do anything
     private var _calculatedValue = MutableLiveData(0.0)
     val calculatedValue: LiveData<Double> by lazy { _calculatedValue }
 
     private var _calculation = MutableLiveData("")
     val calculation: LiveData<String> by lazy { _calculation }
 
+    val operators = arrayListOf<String>("+", "-", "÷", "×", "%")
+
+    val numbers = arrayListOf<Double>()
+    //val operators = arrayListOf<Int>()
+
+    //Dummy. Doesn't do anything
     fun calculateOperation(calculatorButton: CalculatorButton) {
-        val currentValue = calculatedValue.value ?: 0.0
-        val newValue = calculatorButton.value
+        //  val currentValue = calculatedValue.value ?: 0.0
+        //  val newValue = calculatorButton.value
 
         when (calculatorButton.buttonType) {
             ButtonType.Operation -> {
-                //Do something
-                _calculation.value = calculation.value + calculatorButton.title
+                when (calculatorButton.id) {
+                    Operation.Clear.value -> {
+                        _calculation.value = ""
+                        return
+                    }
+                }
+
+                if (calculation.value?.last()?.isDigit() == true) {
+                    _calculation.value = calculation.value + calculatorButton.title
+                } else {
+                    _calculation.value = calculation.value?.dropLast(1) + calculatorButton.title
+                }
             }
 
             ButtonType.Number -> {
                 _calculation.value = calculation.value + calculatorButton.title
+                /*  val digits = calculation.value?.toDouble()
+                  println("Digits " + digits)*/
+                //numbers.add()
             }
 
             ButtonType.Calculation -> {
-
+                println("Calculation")
+                val resultArray = calculation.value?.split("+", "-", "÷", "×", "%")
+                resultArray?.forEach {
+                    println(it)
+                }
+                //val result = calculation.value
             }
         }
 
-        when (calculatorButton.id) {
-            Operation.Clear.value -> {
-                _calculatedValue.value = 0.0
-            }
+        /*  when (calculatorButton.id) {
+              Operation.Clear.value -> {
+                  _calculatedValue.value = 0.0
+              }
 
-            Operation.PositiveOrNegative.value -> {
-                _calculatedValue.value = -currentValue
-            }
+              Operation.PositiveOrNegative.value -> {
+                  _calculatedValue.value = -currentValue
+              }
 
-            Operation.Percentage.value -> {
-                _calculatedValue.value = currentValue % newValue
-            }
+              Operation.Percentage.value -> {
+                  _calculatedValue.value = currentValue % newValue
+              }
 
-            Operation.Divide.value -> {
-                _calculatedValue.value = currentValue / newValue
-            }
+              Operation.Divide.value -> {
+                  _calculatedValue.value = currentValue / newValue
+              }
 
-            Operation.Multiply.value -> {
-                _calculatedValue.value = currentValue * newValue
-            }
+              Operation.Multiply.value -> {
+                  _calculatedValue.value = currentValue * newValue
+              }
 
-            Operation.Subtract.value -> {
-                _calculatedValue.value = currentValue - newValue
-            }
+              Operation.Subtract.value -> {
+                  _calculatedValue.value = currentValue - newValue
+              }
 
-            Operation.Addition.value -> {
-                _calculatedValue.value = currentValue + newValue
-            }
+              Operation.Addition.value -> {
+                  _calculatedValue.value = currentValue + newValue
+              }
 
-            Operation.Decimal.value -> {
-                // _calculatedValue.value = currentValue * newValue.toDouble()
-            }
+              Operation.Decimal.value -> {
+                  // _calculatedValue.value = currentValue * newValue.toDouble()
+              }
 
-            Operation.Equal.value -> {
-                //  _calculatedValue.value = currentValue * newValue.toDouble()
-            }
-        }
+              Operation.Equal.value -> {
+                  //  _calculatedValue.value = currentValue * newValue.toDouble()
+              }
+          }*/
     }
 }
