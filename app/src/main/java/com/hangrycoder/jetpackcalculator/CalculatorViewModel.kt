@@ -49,9 +49,6 @@ class CalculatorViewModel : ViewModel() {
 
     //Dummy. Doesn't do anything
     fun calculateOperation(calculatorButton: CalculatorButton) {
-        //  val currentValue = calculatedValue.value ?: 0.0
-        //  val newValue = calculatorButton.value
-
         when (calculatorButton.buttonType) {
             ButtonType.Operation -> {
 
@@ -124,15 +121,46 @@ class CalculatorViewModel : ViewModel() {
 
     private fun calculateResult(numbers: List<String>) {
         var i = 0
-        operators.forEach {
+        var result = 0.0
+        operators.forEach { operatorId ->
+            println("Operator $operatorId")
             if (i < numbers.size && i + 1 < numbers.size) {
-                val firstNumber = numbers[i]
-                val secondNumber = numbers[i + 1]
+                val firstNumber = numbers[i].toDouble()
+                val secondNumber = numbers[i + 1].toDouble()
 
                 println("First Number $firstNumber")
                 println("Second Number $secondNumber")
                 i += 2
+
+                when (operatorId) {
+                    Operation.Percentage.value -> {
+                        result += firstNumber % secondNumber
+                    }
+
+                    Operation.Divide.value -> {
+                        result += firstNumber / secondNumber
+                    }
+
+                    Operation.Multiply.value -> {
+                        result += firstNumber * secondNumber
+                    }
+
+                    Operation.Subtract.value -> {
+                        result += firstNumber - secondNumber
+                    }
+
+                    Operation.Addition.value -> {
+                        result += firstNumber + secondNumber
+                    }
+
+                    else -> {
+                        //Throw an error
+                        // _calculation.value = "Error"
+                    }
+                }
+                println("Result $result")
             }
         }
+        _calculation.value = result.toString()
     }
 }
