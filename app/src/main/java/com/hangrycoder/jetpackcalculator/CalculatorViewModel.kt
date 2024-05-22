@@ -42,10 +42,10 @@ class CalculatorViewModel : ViewModel() {
     private var _calculation = MutableLiveData("")
     val calculation: LiveData<String> by lazy { _calculation }
 
-    val operators = arrayListOf<String>("+", "-", "÷", "×", "%")
+    //  val operators = arrayListOf<String>("+", "-", "÷", "×", "%")
 
     val numbers = arrayListOf<Double>()
-    //val operators = arrayListOf<Int>()
+    private val operators = arrayListOf<Int>()
 
     //Dummy. Doesn't do anything
     fun calculateOperation(calculatorButton: CalculatorButton) {
@@ -54,34 +54,32 @@ class CalculatorViewModel : ViewModel() {
 
         when (calculatorButton.buttonType) {
             ButtonType.Operation -> {
-                when (calculatorButton.id) {
-                    Operation.Clear.value -> {
-                        _calculation.value = ""
-                        return
-                    }
+
+                if (calculatorButton.id == Operation.Clear.value) {
+                    _calculation.value = ""
+                    return
                 }
 
                 if (calculation.value?.last()?.isDigit() == true) {
                     _calculation.value = calculation.value + calculatorButton.title
                 } else {
                     _calculation.value = calculation.value?.dropLast(1) + calculatorButton.title
+                    operators.removeLast()
                 }
+                operators.add(calculatorButton.id)
             }
 
             ButtonType.Number -> {
                 _calculation.value = calculation.value + calculatorButton.title
-                /*  val digits = calculation.value?.toDouble()
-                  println("Digits " + digits)*/
-                //numbers.add()
             }
 
             ButtonType.Calculation -> {
                 println("Calculation")
-                val resultArray = calculation.value?.split("+", "-", "÷", "×", "%")
-                resultArray?.forEach {
-                    println(it)
+                val resultArray =
+                    calculation.value?.split("+", "-", "÷", "×", "%")
+                if (resultArray != null) {
+                    calculateResult(resultArray)
                 }
-                //val result = calculation.value
             }
         }
 
@@ -122,5 +120,19 @@ class CalculatorViewModel : ViewModel() {
                   //  _calculatedValue.value = currentValue * newValue.toDouble()
               }
           }*/
+    }
+
+    private fun calculateResult(numbers: List<String>) {
+        var i = 0
+        operators.forEach {
+            if (i < numbers.size && i + 1 < numbers.size) {
+                val firstNumber = numbers[i]
+                val secondNumber = numbers[i + 1]
+
+                println("First Number $firstNumber")
+                println("Second Number $secondNumber")
+                i += 2
+            }
+        }
     }
 }
