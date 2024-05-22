@@ -121,36 +121,36 @@ class CalculatorViewModel : ViewModel() {
 
     private fun calculateResult(numbers: List<String>) {
         var i = 0
-        var result = 0.0
+        val firstNumber = numbers[i].toDouble()
+        var result = firstNumber
         operators.forEach { operatorId ->
             println("Operator $operatorId")
-            if (i < numbers.size && i + 1 < numbers.size) {
-                val firstNumber = numbers[i].toDouble()
+            if (i + 1 < numbers.size) {
                 val secondNumber = numbers[i + 1].toDouble()
 
-                println("First Number $firstNumber")
+                println("First Number $result")
                 println("Second Number $secondNumber")
-                i += 2
+                i += 1
 
                 when (operatorId) {
                     Operation.Percentage.value -> {
-                        result += firstNumber % secondNumber
+                        result %= secondNumber
                     }
 
                     Operation.Divide.value -> {
-                        result += firstNumber / secondNumber
+                        result /= secondNumber
                     }
 
                     Operation.Multiply.value -> {
-                        result += firstNumber * secondNumber
+                        result *= secondNumber
                     }
 
                     Operation.Subtract.value -> {
-                        result += firstNumber - secondNumber
+                        result -= secondNumber
                     }
 
                     Operation.Addition.value -> {
-                        result += firstNumber + secondNumber
+                        result += secondNumber
                     }
 
                     else -> {
@@ -162,5 +162,6 @@ class CalculatorViewModel : ViewModel() {
             }
         }
         _calculation.value = result.toString()
+        operators.clear()
     }
 }
