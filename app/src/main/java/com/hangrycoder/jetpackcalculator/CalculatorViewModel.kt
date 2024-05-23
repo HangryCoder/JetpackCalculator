@@ -58,6 +58,10 @@ class CalculatorViewModel : ViewModel() {
                     if (currentValue?.isEmpty() == true) {
                         return
                     }
+                    if (currentValue == ERROR) {
+                        _calculation.value = ""
+                        return
+                    }
 
                     val updatedValue = currentValue?.dropLast(1)
                     if (updatedValue?.isEmpty() == true) {
@@ -73,7 +77,7 @@ class CalculatorViewModel : ViewModel() {
                      return
                  }*/
 
-                if (calculation.value?.isEmpty() == true) {
+                if (calculation.value?.isEmpty() == true || calculation.value == ERROR) {
                     //Do Nothing
                     //Cause remaining operators should not come before number
                     return
@@ -83,13 +87,13 @@ class CalculatorViewModel : ViewModel() {
                     _calculation.value = calculation.value + calculatorButton.title
                 } else {
                     _calculation.value = calculation.value?.dropLast(1) + calculatorButton.title
-                    operators.removeLast()
+                    operators.removeLastOrNull()
                 }
                 operators.add(calculatorButton.id)
             }
 
             ButtonType.Number -> {
-                if (clearDisplay) {
+                if (clearDisplay || calculation.value == ERROR) {
                     clearDisplay = false
                     _calculation.value = ""
                 }
@@ -112,7 +116,7 @@ class CalculatorViewModel : ViewModel() {
             }
 
             ButtonType.Calculation -> {
-                if (calculation.value?.isEmpty() == true) return
+                if (calculation.value?.isEmpty() == true || calculation.value == ERROR) return
 
                 println("Calculation")
                 val resultArray =
@@ -183,8 +187,13 @@ class CalculatorViewModel : ViewModel() {
                     Operation.Divide.value -> {
                         if (secondNumber == 0.0) {
                             //Throw an exception
+                            _calculation.value = ERROR
+                            clearDisplay = true
+                            operators.clear()
+                            return
+                        } else {
+                            result /= secondNumber
                         }
-                        result /= secondNumber
                     }
 
                     Operation.Multiply.value -> {
@@ -224,5 +233,9 @@ class CalculatorViewModel : ViewModel() {
         val df = DecimalFormat("#.###")
         df.roundingMode = RoundingMode.CEILING
         return df.format(this).toDouble()
+    }
+
+    companion object {
+        const val ERROR = "Error"
     }
 }
