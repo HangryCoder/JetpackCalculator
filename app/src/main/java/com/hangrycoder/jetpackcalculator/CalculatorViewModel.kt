@@ -92,9 +92,17 @@ class CalculatorViewModel : ViewModel() {
                 }
 
                 val currentValue = calculation.value
+                val currentValueSize = currentValue?.length ?: 0
 
-                if (currentValue?.length == 1 && currentValue[0] == '0' && calculatorButton.value > 0.0) {
+                //Handling prefix 0 issue
+                if (currentValueSize == 1 && currentValue?.get(0) == '0' && calculatorButton.value > 0.0) {
                     _calculation.value = calculatorButton.title
+                } else if (currentValueSize > 2 && currentValue?.get(currentValueSize - 1) == '0'
+                    && !currentValue.get(currentValueSize - 2).isDigit()
+                    && currentValue.get(currentValueSize - 2) != '.'
+                    && calculatorButton.value > 0.0
+                ) {
+                    _calculation.value = currentValue.dropLast(1) + calculatorButton.title
                 } else {
                     _calculation.value = currentValue + calculatorButton.title
                 }
