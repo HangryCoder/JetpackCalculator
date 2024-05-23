@@ -43,6 +43,9 @@ class CalculatorViewModel : ViewModel() {
     fun calculateOperation(calculatorButton: CalculatorButton) {
         when (calculatorButton.buttonType) {
             ButtonType.Operation -> {
+                if (clearDisplay) {
+                    clearDisplay = false
+                }
 
                 if (calculatorButton.id == Operation.AllClear.value) {
                     _calculation.value = ""
@@ -178,6 +181,9 @@ class CalculatorViewModel : ViewModel() {
                     }
 
                     Operation.Divide.value -> {
+                        if (secondNumber == 0.0) {
+                            //Throw an exception
+                        }
                         result /= secondNumber
                     }
 
