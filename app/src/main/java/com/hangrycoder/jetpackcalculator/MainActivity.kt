@@ -56,7 +56,6 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun Calculator(viewModel: CalculatorViewModel = viewModel()) {
 
-    //var calculatedValue by remember { mutableStateOf("") }
     val calculatedValue by viewModel.calculation.observeAsState()
 
     Column(modifier = Modifier.padding(16.dp)) {
@@ -74,7 +73,6 @@ fun Calculator(viewModel: CalculatorViewModel = viewModel()) {
                 .padding(0.dp, 16.dp, 0.dp, 16.dp)
         ) {
             Buttons(buttonsList = viewModel.buttonsList, onClick = {
-                // calculatedValue += it
                 viewModel.calculateOperation(it)
             })
         }

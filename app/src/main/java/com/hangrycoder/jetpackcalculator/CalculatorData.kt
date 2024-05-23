@@ -14,8 +14,8 @@ enum class ButtonType {
 }
 
 enum class Operation(val value: Int) {
-    Clear(0),
-    PositiveOrNegative(1),
+    AllClear(0),
+    Clear(1),
     Percentage(2),
     Divide(3),
     Multiply(7),

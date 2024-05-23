@@ -7,8 +7,8 @@ import androidx.lifecycle.ViewModel
 class CalculatorViewModel : ViewModel() {
 
     val buttonsList = listOf(
-        CalculatorButton(id = 0, title = "A/C", buttonType = ButtonType.Operation),
-        CalculatorButton(id = 1, title = "+/-", buttonType = ButtonType.Operation),
+        CalculatorButton(id = 0, title = "AC", buttonType = ButtonType.Operation),
+        CalculatorButton(id = 1, title = "C", buttonType = ButtonType.Operation),
         CalculatorButton(id = 2, title = "%", buttonType = ButtonType.Operation),
         CalculatorButton(id = 3, title = "÷", buttonType = ButtonType.Operation),
 
@@ -42,8 +42,24 @@ class CalculatorViewModel : ViewModel() {
         when (calculatorButton.buttonType) {
             ButtonType.Operation -> {
 
-                if (calculatorButton.id == Operation.Clear.value) {
+                if (calculatorButton.id == Operation.AllClear.value) {
                     _calculation.value = ""
+                    return
+                }
+
+                if (calculatorButton.id == Operation.Clear.value) {
+                    val currentValue = calculation.value
+
+                    if (currentValue?.isEmpty() == true) {
+                        return
+                    }
+
+                    val updatedValue = currentValue?.dropLast(1)
+                    if (updatedValue?.isEmpty() == true) {
+                        operators.clear()
+                    }
+
+                    _calculation.value = updatedValue
                     return
                 }
 
