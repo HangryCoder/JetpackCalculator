@@ -3,6 +3,8 @@ package com.hangrycoder.jetpackcalculator
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import java.math.RoundingMode
+import java.text.DecimalFormat
 
 class CalculatorViewModel : ViewModel() {
 
@@ -60,6 +62,17 @@ class CalculatorViewModel : ViewModel() {
                     }
 
                     _calculation.value = updatedValue
+                    return
+                }
+
+                /* if (calculatorButton.id == Operation.Subtract.value && calculation.value?.isEmpty() == true) {
+                     _calculation.value = calculatorButton.title
+                     return
+                 }*/
+
+                if (calculation.value?.isEmpty() == true) {
+                    //Do Nothing
+                    //Cause remaining operators should not come before number
                     return
                 }
 
@@ -171,10 +184,24 @@ class CalculatorViewModel : ViewModel() {
                     }
                 }
                 println("Result $result")
+                println("Check if decimal ${result % 1}")
             }
         }
-        _calculation.value = result.toString()
+
+        val hasTrailingValues = result % 1
+        val resultString = if (hasTrailingValues == 0.0) {
+            result.toInt().toString()
+        } else {
+            result.roundOffDecimal().toString()
+        }
+        _calculation.value = resultString
         clearDisplay = true
         operators.clear()
+    }
+
+    private fun Double.roundOffDecimal(): Double {
+        val df = DecimalFormat("#.###")
+        df.roundingMode = RoundingMode.CEILING
+        return df.format(this).toDouble()
     }
 }
