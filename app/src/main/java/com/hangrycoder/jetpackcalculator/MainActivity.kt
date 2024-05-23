@@ -8,6 +8,7 @@ import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -122,7 +123,7 @@ fun Buttons(buttonsList: List<CalculatorButton>, onClick: (CalculatorButton) -> 
 
         item(span = { GridItemSpan(2) }) {
             val buttonDetail = buttonsList.last()
-            Button(
+            EqualButton(
                 buttonDetail = buttonDetail,
                 onClick = {
                     //Calculate operation
@@ -144,8 +145,30 @@ fun Button(buttonDetail: CalculatorButton, onClick: () -> Unit) {
     TextButton(
         onClick = onClick,
         modifier = Modifier
-            //.fillMaxHeight()
-            //.height(100.dp)
+            .aspectRatio(1f)
+            .background(backgroundColor)
+    ) {
+        Text(
+            text = buttonDetail.title,
+            fontSize = TextUnit(24f, TextUnitType.Sp),
+            modifier = Modifier.padding(8.dp, 8.dp),
+            fontFamily = FontFamily(Font(R.font.noto_sans_regular, FontWeight.Normal)),
+            color = MaterialTheme.colorScheme.onPrimary
+        )
+    }
+}
+
+@Composable
+fun EqualButton(buttonDetail: CalculatorButton, onClick: () -> Unit) {
+    val backgroundColor = when (buttonDetail.buttonType) {
+        ButtonType.Number -> MaterialTheme.colorScheme.primary
+        ButtonType.Operation -> MaterialTheme.colorScheme.secondary
+        ButtonType.Calculation -> MaterialTheme.colorScheme.tertiary
+
+    }
+    TextButton(
+        onClick = onClick,
+        modifier = Modifier
             .background(backgroundColor)
     ) {
         Text(
