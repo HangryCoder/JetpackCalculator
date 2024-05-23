@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,6 +14,7 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -86,12 +88,14 @@ fun Display(value: String) {
         modifier = Modifier
             .fillMaxSize()
             .background(color = MaterialTheme.colorScheme.surface)
+            .horizontalScroll(rememberScrollState(), reverseScrolling = true)
     ) {
         Text(
             text = value,
             color = MaterialTheme.colorScheme.onSecondary,
             fontSize = TextUnit(60f, TextUnitType.Sp),
             fontFamily = fontFamily,
+            maxLines = 1,
             modifier = Modifier
                 .padding(16.dp)
                 .align(Alignment.BottomEnd)
