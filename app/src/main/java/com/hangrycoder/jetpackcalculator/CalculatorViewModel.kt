@@ -90,7 +90,14 @@ class CalculatorViewModel : ViewModel() {
                     clearDisplay = false
                     _calculation.value = ""
                 }
-                _calculation.value = calculation.value + calculatorButton.title
+
+                val currentValue = calculation.value
+
+                if (currentValue?.length == 1 && currentValue[0] == '0' && calculatorButton.value > 0.0) {
+                    _calculation.value = calculatorButton.title
+                } else {
+                    _calculation.value = currentValue + calculatorButton.title
+                }
             }
 
             ButtonType.Calculation -> {
