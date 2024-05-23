@@ -137,7 +137,7 @@ class CalculatorViewModel : ViewModel() {
         var result = firstNumber
         operators.forEach { operatorId ->
             println("Operator $operatorId")
-            if (i + 1 < numbers.size) {
+            if (i + 1 < numbers.size && numbers[i + 1].isNotEmpty()) {
                 val secondNumber = numbers[i + 1].toDouble()
 
                 println("First Number $result")
