@@ -27,6 +27,7 @@ private val LightColorScheme = lightColorScheme(
     tertiary = equalsButtonBg,
     background = screenBg,
     surface = displayBg,
+    onSurface = displayBgSecondary,
     onPrimary = buttonText,
     onSecondary = displayText,
     onPrimaryContainer = numberButtonBgSecondary,
