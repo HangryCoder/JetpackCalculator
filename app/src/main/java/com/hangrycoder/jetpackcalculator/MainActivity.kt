@@ -163,9 +163,8 @@ fun Button(buttonDetail: CalculatorButton, onClick: () -> Unit) {
         Text(
             text = buttonDetail.title,
             fontSize = TextUnit(24f, TextUnitType.Sp),
-            modifier = Modifier.padding(8.dp, 8.dp),
             fontFamily = FontFamily(Font(R.font.noto_sans_regular, FontWeight.Normal)),
-            color = MaterialTheme.colorScheme.onPrimary
+            color = MaterialTheme.colorScheme.onPrimary,
         )
     }
 }
