@@ -9,6 +9,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.gestures.waitForUpOrCancellation
 import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.interaction.Interaction
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -46,6 +47,8 @@ import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.hangrycoder.jetpackcalculator.ui.theme.JetpackCalculatorTheme
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emptyFlow
 
 class MainActivity : ComponentActivity() {
 
@@ -155,6 +158,7 @@ fun Button(buttonDetail: CalculatorButton, onClick: () -> Unit) {
         colors = ButtonDefaults.buttonColors(
             containerColor = foregroundColor
         ),
+        interactionSource = remember { NoRippleInteractionSource() },
         modifier = Modifier
             .aspectRatio(1f)
             .background(backgroundColor)
@@ -180,6 +184,7 @@ fun EqualButton(buttonDetail: CalculatorButton, onClick: () -> Unit) {
         colors = ButtonDefaults.buttonColors(
             containerColor = foregroundColor
         ),
+        interactionSource = remember { NoRippleInteractionSource() },
         modifier = Modifier
             .aspectRatio(2.1f, true)
             .background(backgroundColor)
@@ -223,4 +228,14 @@ fun Modifier.pressClickEffect() = composed {
                 }
             }
         }
+}
+
+
+class NoRippleInteractionSource : MutableInteractionSource {
+
+    override val interactions: Flow<Interaction> = emptyFlow()
+
+    override suspend fun emit(interaction: Interaction) {}
+
+    override fun tryEmit(interaction: Interaction) = true
 }
