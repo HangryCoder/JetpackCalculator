@@ -110,6 +110,8 @@ class CalculatorViewModel : ViewModel() {
                     && calculatorButton.value > 0.0
                 ) {
                     _calculation.value = currentValue.dropLast(1) + calculatorButton.title
+                } else if (currentValueSize > 0 && currentValue?.get(currentValueSize - 1) == '.' && calculatorButton.title == ".") {
+                    return
                 } else {
                     _calculation.value = currentValue + calculatorButton.title
                 }
@@ -126,44 +128,6 @@ class CalculatorViewModel : ViewModel() {
                 }
             }
         }
-
-        /*  when (calculatorButton.id) {
-              Operation.Clear.value -> {
-                  _calculatedValue.value = 0.0
-              }
-
-              Operation.PositiveOrNegative.value -> {
-                  _calculatedValue.value = -currentValue
-              }
-
-              Operation.Percentage.value -> {
-                  _calculatedValue.value = currentValue % newValue
-              }
-
-              Operation.Divide.value -> {
-                  _calculatedValue.value = currentValue / newValue
-              }
-
-              Operation.Multiply.value -> {
-                  _calculatedValue.value = currentValue * newValue
-              }
-
-              Operation.Subtract.value -> {
-                  _calculatedValue.value = currentValue - newValue
-              }
-
-              Operation.Addition.value -> {
-                  _calculatedValue.value = currentValue + newValue
-              }
-
-              Operation.Decimal.value -> {
-                  // _calculatedValue.value = currentValue * newValue.toDouble()
-              }
-
-              Operation.Equal.value -> {
-                  //  _calculatedValue.value = currentValue * newValue.toDouble()
-              }
-          }*/
     }
 
     private fun calculateResult(numbers: List<String>) {
