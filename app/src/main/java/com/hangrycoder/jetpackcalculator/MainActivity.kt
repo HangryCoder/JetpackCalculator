@@ -3,8 +3,13 @@ package com.hangrycoder.jetpackcalculator
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.awaitFirstDown
+import androidx.compose.foundation.gestures.waitForUpOrCancellation
 import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,15 +22,22 @@ import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.composed
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -126,17 +138,27 @@ fun Buttons(buttonsList: List<CalculatorButton>, onClick: (CalculatorButton) -> 
 
 @Composable
 fun Button(buttonDetail: CalculatorButton, onClick: () -> Unit) {
-    val backgroundColor = when (buttonDetail.buttonType) {
+    val foregroundColor = when (buttonDetail.buttonType) {
         ButtonType.Number -> MaterialTheme.colorScheme.primary
         ButtonType.Operation -> MaterialTheme.colorScheme.secondary
         ButtonType.Calculation -> MaterialTheme.colorScheme.tertiary
-
     }
-    TextButton(
+    val backgroundColor = when (buttonDetail.buttonType) {
+        ButtonType.Number -> MaterialTheme.colorScheme.onPrimaryContainer
+        ButtonType.Operation -> MaterialTheme.colorScheme.onSecondaryContainer
+        ButtonType.Calculation -> MaterialTheme.colorScheme.onTertiaryContainer
+    }
+
+    androidx.compose.material3.Button(
         onClick = onClick,
+        shape = RoundedCornerShape(0.dp),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = foregroundColor
+        ),
         modifier = Modifier
             .aspectRatio(1f)
             .background(backgroundColor)
+            .pressClickEffect()
     ) {
         Text(
             text = buttonDetail.title,
@@ -150,17 +172,19 @@ fun Button(buttonDetail: CalculatorButton, onClick: () -> Unit) {
 
 @Composable
 fun EqualButton(buttonDetail: CalculatorButton, onClick: () -> Unit) {
-    val backgroundColor = when (buttonDetail.buttonType) {
-        ButtonType.Number -> MaterialTheme.colorScheme.primary
-        ButtonType.Operation -> MaterialTheme.colorScheme.secondary
-        ButtonType.Calculation -> MaterialTheme.colorScheme.tertiary
+    val foregroundColor = MaterialTheme.colorScheme.tertiary
+    val backgroundColor = MaterialTheme.colorScheme.onTertiaryContainer
 
-    }
-    TextButton(
+    androidx.compose.material3.Button(
         onClick = onClick,
+        shape = RoundedCornerShape(0.dp),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = foregroundColor
+        ),
         modifier = Modifier
             .aspectRatio(2.1f, true)
             .background(backgroundColor)
+            .pressClickEffect()
     ) {
         Text(
             text = buttonDetail.title,
@@ -170,4 +194,34 @@ fun EqualButton(buttonDetail: CalculatorButton, onClick: () -> Unit) {
             color = MaterialTheme.colorScheme.onPrimary
         )
     }
+}
+
+enum class ButtonState { Pressed, Idle }
+
+fun Modifier.pressClickEffect() = composed {
+    var buttonState by remember { mutableStateOf(ButtonState.Idle) }
+    val tx by animateFloatAsState(if (buttonState == ButtonState.Pressed) 0f else -10f, label = "")
+    val ty by animateFloatAsState(if (buttonState == ButtonState.Pressed) 0f else -10f, label = "")
+
+    this
+        .graphicsLayer {
+            translationX = tx
+            translationY = ty
+        }
+        .clickable(
+            interactionSource = remember { MutableInteractionSource() },
+            indication = null,
+            onClick = { }
+        )
+        .pointerInput(buttonState) {
+            awaitPointerEventScope {
+                buttonState = if (buttonState == ButtonState.Pressed) {
+                    waitForUpOrCancellation()
+                    ButtonState.Idle
+                } else {
+                    awaitFirstDown(false)
+                    ButtonState.Pressed
+                }
+            }
+        }
 }

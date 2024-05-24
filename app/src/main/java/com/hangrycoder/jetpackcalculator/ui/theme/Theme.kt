@@ -29,6 +29,9 @@ private val LightColorScheme = lightColorScheme(
     surface = displayBg,
     onPrimary = buttonText,
     onSecondary = displayText,
+    onPrimaryContainer = numberButtonBgSecondary,
+    onSecondaryContainer = operationButtonBgSecondary,
+    onTertiaryContainer = equalsButtonBgSecondary,
 
     /* Other default colors to override
     background = Color(0xFFFFFBFE),
