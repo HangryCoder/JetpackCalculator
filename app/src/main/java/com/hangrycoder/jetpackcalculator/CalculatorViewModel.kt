@@ -86,7 +86,11 @@ class CalculatorViewModel : ViewModel() {
                     _calculation.value = currentValue.dropLast(1) + calculatorButton.title
                 }
                 //Handling prefix multiple ... issue
-                else if (currentValueSize > 0 && currentValue?.get(currentValueSize - 1) == '.' && calculatorButton.title == ".") {
+                else if (currentValueSize > 0 && checkIfLastValueContainsADot(
+                        currentValue,
+                        currentValueSize
+                    ) && calculatorButton.title == "."
+                ) {
                     return
                 } else {
                     _calculation.value = currentValue + calculatorButton.title
@@ -144,4 +148,18 @@ class CalculatorViewModel : ViewModel() {
         clearDisplay = true
         operators.clear()
     }
+}
+
+
+fun checkIfLastValueContainsADot(resultString: String?, size: Int): Boolean {
+    val dot = '.'
+    for (i in size - 1 downTo 0) {
+        println(resultString?.get(i))
+        if (resultString?.get(i)?.isDigit() == false && resultString.get(i) != dot) {
+            return false
+        } else if (resultString?.get(i) == dot) {
+            return true
+        }
+    }
+    return false
 }
