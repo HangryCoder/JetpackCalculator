@@ -51,7 +51,3 @@ fun Double.roundOffDecimal(): Double {
     df.roundingMode = RoundingMode.CEILING
     return df.format(this).toDouble()
 }
-
-object Constants {
-    const val ERROR = "Error"
-}

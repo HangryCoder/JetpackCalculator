@@ -84,13 +84,7 @@ class CalculatorViewModel : ViewModel() {
                     && calculatorButton.value > 0.0
                 ) {
                     _calculation.value = currentValue.dropLast(1) + calculatorButton.title
-                }
-                //Handling prefix multiple ... issue
-                else if (currentValueSize > 0 && checkIfLastValueContainsADot(
-                        currentValue,
-                        currentValueSize
-                    ) && calculatorButton.title == "."
-                ) {
+                } else if (containsDot(currentValue) && calculatorButton.title == Constants.DOT) {
                     return
                 } else {
                     _calculation.value = currentValue + calculatorButton.title
@@ -108,6 +102,19 @@ class CalculatorViewModel : ViewModel() {
                 }
             }
         }
+    }
+
+    private fun containsDot(resultString: String?): Boolean {
+        val size = resultString?.length ?: 0
+        val dot = '.'
+        for (i in size - 1 downTo 0) {
+            if (resultString?.get(i)?.isDigit() == false && resultString[i] != dot) {
+                return false
+            } else if (resultString?.get(i) == dot) {
+                return true
+            }
+        }
+        return false
     }
 
     private fun calculateResult(numbers: List<String>) {
@@ -148,18 +155,4 @@ class CalculatorViewModel : ViewModel() {
         clearDisplay = true
         operators.clear()
     }
-}
-
-
-fun checkIfLastValueContainsADot(resultString: String?, size: Int): Boolean {
-    val dot = '.'
-    for (i in size - 1 downTo 0) {
-        println(resultString?.get(i))
-        if (resultString?.get(i)?.isDigit() == false && resultString.get(i) != dot) {
-            return false
-        } else if (resultString?.get(i) == dot) {
-            return true
-        }
-    }
-    return false
 }
