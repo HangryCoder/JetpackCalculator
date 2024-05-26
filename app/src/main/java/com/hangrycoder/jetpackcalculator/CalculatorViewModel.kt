@@ -146,50 +146,13 @@ class CalculatorViewModel : ViewModel() {
                 val calculator = Calculator()
                 try {
                     result = calculator.calculate(result, secondNumber, operatorId)
-                } catch (e: ArithmeticException) {
-                    _calculation.value = ERROR
-                    clearDisplay = true
-                    operators.clear()
-                    return
-                } catch (e: IllegalArgumentException) {
+                } catch (e: Exception) {
                     _calculation.value = ERROR
                     clearDisplay = true
                     operators.clear()
                     return
                 }
-                /*when (operatorId) {
-                    Operation.Percentage.value -> {
-                        result = calculator.percentage(result, secondNumber)
-                    }
 
-                    Operation.Divide.value -> {
-                        if (secondNumber == 0.0) {
-                            _calculation.value = ERROR
-                            clearDisplay = true
-                            operators.clear()
-                            return
-                        } else {
-                            result = calculator.divide(result, secondNumber)
-                        }
-                    }
-
-                    Operation.Multiply.value -> {
-                        result = calculator.multiply(result, secondNumber)
-                    }
-
-                    Operation.Subtract.value -> {
-                        result = calculator.subtract(result, secondNumber)
-                    }
-
-                    Operation.Addition.value -> {
-                        result = calculator.add(result, secondNumber)
-                    }
-
-                    else -> {
-                        //Throw an error
-                        // _calculation.value = "Error"
-                    }
-                }*/
                 println("Result $result")
                 println("Check if decimal ${result % 1}")
             }
