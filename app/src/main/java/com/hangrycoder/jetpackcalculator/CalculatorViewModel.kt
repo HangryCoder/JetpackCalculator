@@ -143,33 +143,34 @@ class CalculatorViewModel : ViewModel() {
                 println("Second Number $secondNumber")
                 i += 1
 
+                val calculator = Calculator()
                 when (operatorId) {
                     Operation.Percentage.value -> {
-                        result %= secondNumber
+                        //result %= secondNumber
+                        result = calculator.percentage(result, secondNumber)
                     }
 
                     Operation.Divide.value -> {
                         if (secondNumber == 0.0) {
-                            //Throw an exception
                             _calculation.value = ERROR
                             clearDisplay = true
                             operators.clear()
                             return
                         } else {
-                            result /= secondNumber
+                            result = calculator.divide(result, secondNumber)
                         }
                     }
 
                     Operation.Multiply.value -> {
-                        result *= secondNumber
+                        result = calculator.multiply(result, secondNumber)
                     }
 
                     Operation.Subtract.value -> {
-                        result -= secondNumber
+                        result = calculator.subtract(result, secondNumber)
                     }
 
                     Operation.Addition.value -> {
-                        result += secondNumber
+                        result = calculator.add(result, secondNumber)
                     }
 
                     else -> {
