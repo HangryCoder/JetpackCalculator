@@ -47,7 +47,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Calculator()
+                    CalculatorView()
                 }
             }
         }
@@ -55,7 +55,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Calculator(viewModel: CalculatorViewModel = viewModel()) {
+fun CalculatorView(viewModel: CalculatorViewModel = viewModel()) {
 
     val calculatedValue by viewModel.calculation.observeAsState()
 
