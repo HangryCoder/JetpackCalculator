@@ -13,6 +13,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
+import java.math.RoundingMode
+import java.text.DecimalFormat
 
 enum class ButtonState { Pressed, Idle }
 
@@ -42,4 +44,14 @@ fun Modifier.pressClickEffect() = composed {
                 }
             }
         }
+}
+
+fun Double.roundOffDecimal(): Double {
+    val df = DecimalFormat("#.###")
+    df.roundingMode = RoundingMode.CEILING
+    return df.format(this).toDouble()
+}
+
+object Constants {
+    const val ERROR = "Error"
 }

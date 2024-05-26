@@ -3,8 +3,6 @@ package com.hangrycoder.jetpackcalculator
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import java.math.RoundingMode
-import java.text.DecimalFormat
 
 class CalculatorViewModel : ViewModel() {
 
@@ -58,7 +56,7 @@ class CalculatorViewModel : ViewModel() {
                     if (currentValue?.isEmpty() == true) {
                         return
                     }
-                    if (currentValue == ERROR) {
+                    if (currentValue == Constants.ERROR) {
                         _calculation.value = ""
                         return
                     }
@@ -77,7 +75,7 @@ class CalculatorViewModel : ViewModel() {
                      return
                  }*/
 
-                if (calculation.value?.isEmpty() == true || calculation.value == ERROR) {
+                if (calculation.value?.isEmpty() == true || calculation.value == Constants.ERROR) {
                     //Do Nothing
                     //Cause remaining operators should not come before number
                     return
@@ -93,7 +91,7 @@ class CalculatorViewModel : ViewModel() {
             }
 
             ButtonType.Number -> {
-                if (clearDisplay || calculation.value == ERROR) {
+                if (clearDisplay || calculation.value == Constants.ERROR) {
                     clearDisplay = false
                     _calculation.value = ""
                 }
@@ -110,7 +108,9 @@ class CalculatorViewModel : ViewModel() {
                     && calculatorButton.value > 0.0
                 ) {
                     _calculation.value = currentValue.dropLast(1) + calculatorButton.title
-                } else if (currentValueSize > 0 && currentValue?.get(currentValueSize - 1) == '.' && calculatorButton.title == ".") {
+                }
+                //Handling prefix multiple ... issue
+                else if (currentValueSize > 0 && currentValue?.get(currentValueSize - 1) == '.' && calculatorButton.title == ".") {
                     return
                 } else {
                     _calculation.value = currentValue + calculatorButton.title
@@ -118,7 +118,7 @@ class CalculatorViewModel : ViewModel() {
             }
 
             ButtonType.Calculation -> {
-                if (calculation.value?.isEmpty() == true || calculation.value == ERROR) return
+                if (calculation.value?.isEmpty() == true || calculation.value == Constants.ERROR) return
 
                 println("Calculation")
                 val resultArray =
@@ -147,7 +147,7 @@ class CalculatorViewModel : ViewModel() {
                 try {
                     result = calculator.calculate(result, secondNumber, operatorId)
                 } catch (e: Exception) {
-                    _calculation.value = ERROR
+                    _calculation.value = Constants.ERROR
                     clearDisplay = true
                     operators.clear()
                     return
@@ -167,15 +167,5 @@ class CalculatorViewModel : ViewModel() {
         _calculation.value = resultString
         clearDisplay = true
         operators.clear()
-    }
-
-    private fun Double.roundOffDecimal(): Double {
-        val df = DecimalFormat("#.###")
-        df.roundingMode = RoundingMode.CEILING
-        return df.format(this).toDouble()
-    }
-
-    companion object {
-        const val ERROR = "Error"
     }
 }
