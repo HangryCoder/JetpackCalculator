@@ -146,7 +146,6 @@ class CalculatorViewModel : ViewModel() {
                 val calculator = Calculator()
                 when (operatorId) {
                     Operation.Percentage.value -> {
-                        //result %= secondNumber
                         result = calculator.percentage(result, secondNumber)
                     }
 
