@@ -144,7 +144,20 @@ class CalculatorViewModel : ViewModel() {
                 i += 1
 
                 val calculator = Calculator()
-                when (operatorId) {
+                try {
+                    result = calculator.calculate(result, secondNumber, operatorId)
+                } catch (e: ArithmeticException) {
+                    _calculation.value = ERROR
+                    clearDisplay = true
+                    operators.clear()
+                    return
+                } catch (e: IllegalArgumentException) {
+                    _calculation.value = ERROR
+                    clearDisplay = true
+                    operators.clear()
+                    return
+                }
+                /*when (operatorId) {
                     Operation.Percentage.value -> {
                         result = calculator.percentage(result, secondNumber)
                     }
@@ -176,7 +189,7 @@ class CalculatorViewModel : ViewModel() {
                         //Throw an error
                         // _calculation.value = "Error"
                     }
-                }
+                }*/
                 println("Result $result")
                 println("Check if decimal ${result % 1}")
             }

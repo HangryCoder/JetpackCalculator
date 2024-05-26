@@ -1,5 +1,7 @@
 package com.hangrycoder.jetpackcalculator
 
+import java.lang.IllegalArgumentException
+
 class Calculator {
 
     fun add(firstNum: Double, secondNum: Double): Double {
@@ -15,6 +17,9 @@ class Calculator {
     }
 
     fun divide(firstNum: Double, secondNum: Double): Double {
+        if (secondNum == 0.0) {
+            throw ArithmeticException("Division by zero")
+        }
         return firstNum / secondNum
     }
 
@@ -45,9 +50,7 @@ class Calculator {
             }
 
             else -> {
-                //Throw an error
-                // _calculation.value = "Error"
-                return 0.0
+                throw IllegalArgumentException("Invalid Operation")
             }
         }
     }
