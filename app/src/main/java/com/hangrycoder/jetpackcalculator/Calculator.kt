@@ -4,26 +4,26 @@ import java.lang.IllegalArgumentException
 
 class Calculator {
 
-    fun add(firstNum: Double, secondNum: Double): Double {
+    private fun add(firstNum: Double, secondNum: Double): Double {
         return firstNum + secondNum
     }
 
-    fun subtract(firstNum: Double, secondNum: Double): Double {
+    private fun subtract(firstNum: Double, secondNum: Double): Double {
         return firstNum - secondNum
     }
 
-    fun multiply(firstNum: Double, secondNum: Double): Double {
+    private fun multiply(firstNum: Double, secondNum: Double): Double {
         return firstNum * secondNum
     }
 
-    fun divide(firstNum: Double, secondNum: Double): Double {
+    private fun divide(firstNum: Double, secondNum: Double): Double {
         if (secondNum == 0.0) {
             throw ArithmeticException("Division by zero")
         }
         return firstNum / secondNum
     }
 
-    fun percentage(firstNum: Double, secondNum: Double): Double {
+    private fun percentage(firstNum: Double, secondNum: Double): Double {
         return firstNum % secondNum
     }
 
