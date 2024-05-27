@@ -18,39 +18,62 @@ class CalculatorViewModel : ViewModel() {
     fun calculateOperation(calculatorButton: CalculatorButton) {
         when (calculatorButton.buttonType) {
             ButtonType.Operation -> {
-                if (clearDisplay) {
-                    clearDisplay = false
-                }
+                insertOperator(calculatorButton)
+            }
 
-                if (calculatorButton.id == Operation.AllClear.value) {
+            ButtonType.Number -> {
+                insertNumber(calculatorButton)
+            }
+
+            ButtonType.Calculation -> {
+                if (calculation.value?.isEmpty() == true || calculation.value == Constants.ERROR) return
+
+                println("Calculation")
+                val resultArray =
+                    calculation.value?.split("+", "-", "÷", "×", "%")?.filterNot { it.isEmpty() }
+                if (resultArray != null) {
+                    calculateResult(resultArray)
+                }
+            }
+        }
+    }
+
+    private fun insertOperator(calculatorButton: CalculatorButton) {
+        if (clearDisplay) {
+            clearDisplay = false
+        }
+
+        when (calculatorButton.id) {
+            Operation.AllClear.value -> {
+                _calculation.value = ""
+                return
+            }
+
+            Operation.Clear.value -> {
+                val currentValue = calculation.value
+
+                if (currentValue?.isEmpty() == true) {
+                    return
+                }
+                if (currentValue == Constants.ERROR) {
                     _calculation.value = ""
                     return
                 }
 
-                if (calculatorButton.id == Operation.Clear.value) {
-                    val currentValue = calculation.value
-
-                    if (currentValue?.isEmpty() == true) {
-                        return
-                    }
-                    if (currentValue == Constants.ERROR) {
-                        _calculation.value = ""
-                        return
-                    }
-
-                    val updatedValue = currentValue?.dropLast(1)
-                    if (updatedValue?.isEmpty() == true) {
-                        operators.clear()
-                    }
-
-                    _calculation.value = updatedValue
-                    return
+                val updatedValue = currentValue?.dropLast(1)
+                if (updatedValue?.isEmpty() == true) {
+                    operators.clear()
                 }
 
+                _calculation.value = updatedValue
+                return
+            }
+
+            else -> {
                 /* if (calculatorButton.id == Operation.Subtract.value && calculation.value?.isEmpty() == true) {
-                     _calculation.value = calculatorButton.title
-                     return
-                 }*/
+          _calculation.value = calculatorButton.title
+          return
+      }*/
 
                 if (calculation.value?.isEmpty() == true || calculation.value == Constants.ERROR) {
                     //Do Nothing
@@ -65,36 +88,6 @@ class CalculatorViewModel : ViewModel() {
                     operators.removeLastOrNull()
                 }
                 operators.add(calculatorButton.id)
-            }
-
-            ButtonType.Number -> {
-                if (clearDisplay || calculation.value == Constants.ERROR) {
-                    clearDisplay = false
-                    _calculation.value = ""
-                }
-
-                val currentValue = calculation.value
-
-                if (prefixZero(currentValue, calculatorButton)) {
-                    _calculation.value = calculatorButton.title
-                } else if (containsMultipleZero(currentValue, calculatorButton)) {
-                    _calculation.value = currentValue?.dropLast(1) + calculatorButton.title
-                } else if (containsDot(currentValue) && calculatorButton.title == Constants.DOT) {
-                    return
-                } else {
-                    _calculation.value = currentValue + calculatorButton.title
-                }
-            }
-
-            ButtonType.Calculation -> {
-                if (calculation.value?.isEmpty() == true || calculation.value == Constants.ERROR) return
-
-                println("Calculation")
-                val resultArray =
-                    calculation.value?.split("+", "-", "÷", "×", "%")?.filterNot { it.isEmpty() }
-                if (resultArray != null) {
-                    calculateResult(resultArray)
-                }
             }
         }
     }
@@ -129,6 +122,25 @@ class CalculatorViewModel : ViewModel() {
             }
         }
         return false
+    }
+
+    private fun insertNumber(calculatorButton: CalculatorButton) {
+        if (clearDisplay || calculation.value == Constants.ERROR) {
+            clearDisplay = false
+            _calculation.value = ""
+        }
+
+        val currentValue = calculation.value
+
+        if (prefixZero(currentValue, calculatorButton)) {
+            _calculation.value = calculatorButton.title
+        } else if (containsMultipleZero(currentValue, calculatorButton)) {
+            _calculation.value = currentValue?.dropLast(1) + calculatorButton.title
+        } else if (containsDot(currentValue) && calculatorButton.title == Constants.DOT) {
+            return
+        } else {
+            _calculation.value = currentValue + calculatorButton.title
+        }
     }
 
     private fun calculateResult(numbers: List<String>) {
