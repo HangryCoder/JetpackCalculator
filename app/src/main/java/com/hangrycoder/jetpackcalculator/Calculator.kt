@@ -24,7 +24,7 @@ class Calculator {
     }
 
     private fun percentage(firstNum: Double, secondNum: Double): Double {
-        return firstNum % secondNum
+        return (firstNum * secondNum) / 100
     }
 
     fun calculate(firstNum: Double, secondNum: Double, operatorId: Int): Double {
