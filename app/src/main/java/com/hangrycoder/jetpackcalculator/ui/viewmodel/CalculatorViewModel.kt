@@ -33,14 +33,7 @@ class CalculatorViewModel : ViewModel() {
             }
 
             ButtonType.Calculation -> {
-                if (calculation.value?.isEmpty() == true || calculation.value == Constants.ERROR) return
-
-                println("Calculation")
-                val resultArray =
-                    calculation.value?.split("+", "-", "÷", "×", "%")?.filterNot { it.isEmpty() }
-                if (resultArray != null) {
-                    calculateResult(resultArray)
-                }
+                calculateResult()
             }
         }
     }
@@ -150,7 +143,14 @@ class CalculatorViewModel : ViewModel() {
         }
     }
 
-    private fun calculateResult(numbers: List<String>) {
+    private fun calculateResult() {
+        if (calculation.value?.isEmpty() == true || calculation.value == Constants.ERROR) return
+
+        println("Calculation")
+        val numbers =
+            calculation.value?.split("+", "-", "÷", "×", "%")?.filterNot { it.isEmpty() }
+        numbers ?: return
+
         var i = 0
         val firstNumber = numbers[i].toDoubleOrNull() ?: return
         var result = firstNumber
