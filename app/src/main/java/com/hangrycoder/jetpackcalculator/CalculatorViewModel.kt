@@ -1,5 +1,6 @@
 package com.hangrycoder.jetpackcalculator
 
+import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -76,14 +77,10 @@ class CalculatorViewModel : ViewModel() {
                 val currentValueSize = currentValue?.length ?: 0
 
                 //Handling prefix 0 issue
-                if (currentValueSize == 1 && currentValue?.get(0) == '0' && calculatorButton.value > 0.0) {
+                if (currentValueSize == 1 && currentValue?.get(0) == '0' && calculatorButton.title.isDigitsOnly()) {
                     _calculation.value = calculatorButton.title
-                } else if (currentValueSize > 2 && currentValue?.get(currentValueSize - 1) == '0'
-                    && !currentValue.get(currentValueSize - 2).isDigit()
-                    && currentValue.get(currentValueSize - 2) != '.'
-                    && calculatorButton.value > 0.0
-                ) {
-                    _calculation.value = currentValue.dropLast(1) + calculatorButton.title
+                } else if (containsMultipleZero(currentValue, calculatorButton)) {
+                    _calculation.value = currentValue?.dropLast(1) + calculatorButton.title
                 } else if (containsDot(currentValue) && calculatorButton.title == Constants.DOT) {
                     return
                 } else {
@@ -102,6 +99,19 @@ class CalculatorViewModel : ViewModel() {
                 }
             }
         }
+    }
+
+    private fun containsMultipleZero(
+        resultString: String?,
+        calculatorButton: CalculatorButton
+    ): Boolean {
+        val size = resultString?.length ?: 0
+        val dot = '.'
+        val zero = '0'
+        return (size > 1 && resultString?.get(size - 1) == zero
+                && !resultString[size - 2].isDigit()
+                && resultString[size - 2] != dot
+                && (calculatorButton.value > 0.0 || calculatorButton.title == Constants.ZERO))
     }
 
     private fun containsDot(resultString: String?): Boolean {
