@@ -74,10 +74,8 @@ class CalculatorViewModel : ViewModel() {
                 }
 
                 val currentValue = calculation.value
-                val currentValueSize = currentValue?.length ?: 0
 
-                //Handling prefix 0 issue
-                if (currentValueSize == 1 && currentValue?.get(0) == '0' && calculatorButton.title.isDigitsOnly()) {
+                if (prefixZero(currentValue, calculatorButton)) {
                     _calculation.value = calculatorButton.title
                 } else if (containsMultipleZero(currentValue, calculatorButton)) {
                     _calculation.value = currentValue?.dropLast(1) + calculatorButton.title
@@ -99,6 +97,12 @@ class CalculatorViewModel : ViewModel() {
                 }
             }
         }
+    }
+
+    private fun prefixZero(resultString: String?, calculatorButton: CalculatorButton): Boolean {
+        val resultSize = resultString?.length ?: 0
+        val zero = '0'
+        return resultSize == 1 && resultString?.get(0) == zero && calculatorButton.title.isDigitsOnly()
     }
 
     private fun containsMultipleZero(
