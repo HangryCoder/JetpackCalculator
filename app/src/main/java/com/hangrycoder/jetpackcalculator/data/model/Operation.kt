@@ -1,18 +1,5 @@
 package com.hangrycoder.jetpackcalculator.data.model
 
-data class CalculatorButton(
-    val id: Int,
-    val title: String,
-    val buttonType: ButtonType,
-    val value: Double = 0.0
-)
-
-enum class ButtonType {
-    Number,
-    Operation,
-    Calculation,
-}
-
 enum class Operation(val value: Int) {
     AllClear(0),
     Clear(1),

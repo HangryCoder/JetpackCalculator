@@ -4,9 +4,9 @@ import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.hangrycoder.jetpackcalculator.data.model.ButtonType
-import com.hangrycoder.jetpackcalculator.data.Calculator
-import com.hangrycoder.jetpackcalculator.data.model.CalculatorButton
+import com.hangrycoder.jetpackcalculator.ui.model.ButtonType
+import com.hangrycoder.jetpackcalculator.data.model.Calculator
+import com.hangrycoder.jetpackcalculator.ui.model.CalculatorButton
 import com.hangrycoder.jetpackcalculator.data.datasource.CalculatorDataSource
 import com.hangrycoder.jetpackcalculator.data.model.Operation
 import com.hangrycoder.jetpackcalculator.utils.Constants
