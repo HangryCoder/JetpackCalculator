@@ -1,4 +1,7 @@
-package com.hangrycoder.jetpackcalculator.data
+package com.hangrycoder.jetpackcalculator.data.datasource
+
+import com.hangrycoder.jetpackcalculator.data.model.ButtonType
+import com.hangrycoder.jetpackcalculator.data.model.CalculatorButton
 
 object CalculatorDataSource {
 

@@ -1,4 +1,4 @@
-package com.hangrycoder.jetpackcalculator.data
+package com.hangrycoder.jetpackcalculator.data.model
 
 data class CalculatorButton(
     val id: Int,

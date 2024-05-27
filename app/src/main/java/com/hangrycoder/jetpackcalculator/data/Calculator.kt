@@ -1,5 +1,6 @@
 package com.hangrycoder.jetpackcalculator.data
 
+import com.hangrycoder.jetpackcalculator.data.model.Operation
 import com.hangrycoder.jetpackcalculator.utils.Constants
 import java.lang.IllegalArgumentException
 

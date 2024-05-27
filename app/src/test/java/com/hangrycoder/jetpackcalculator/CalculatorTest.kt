@@ -1,7 +1,7 @@
 package com.hangrycoder.jetpackcalculator
 
 import com.hangrycoder.jetpackcalculator.data.Calculator
-import com.hangrycoder.jetpackcalculator.data.Operation
+import com.hangrycoder.jetpackcalculator.data.model.Operation
 import org.junit.Assert
 import org.junit.Test
 import java.lang.IllegalArgumentException
