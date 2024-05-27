@@ -1,4 +1,4 @@
-package com.hangrycoder.jetpackcalculator
+package com.hangrycoder.jetpackcalculator.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -35,7 +35,13 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.hangrycoder.jetpackcalculator.R
+import com.hangrycoder.jetpackcalculator.data.ButtonType
+import com.hangrycoder.jetpackcalculator.data.CalculatorButton
 import com.hangrycoder.jetpackcalculator.ui.theme.JetpackCalculatorTheme
+import com.hangrycoder.jetpackcalculator.utils.NoRippleInteractionSource
+import com.hangrycoder.jetpackcalculator.utils.pressClickEffect
+import com.hangrycoder.jetpackcalculator.viewmodel.CalculatorViewModel
 
 class MainActivity : ComponentActivity() {
 

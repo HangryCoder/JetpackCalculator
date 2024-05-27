@@ -1,4 +1,4 @@
-package com.hangrycoder.jetpackcalculator
+package com.hangrycoder.jetpackcalculator.utils
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.clickable

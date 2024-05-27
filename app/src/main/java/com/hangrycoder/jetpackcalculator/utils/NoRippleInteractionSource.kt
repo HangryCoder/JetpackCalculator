@@ -1,4 +1,4 @@
-package com.hangrycoder.jetpackcalculator
+package com.hangrycoder.jetpackcalculator.utils
 
 import androidx.compose.foundation.interaction.Interaction
 import androidx.compose.foundation.interaction.MutableInteractionSource
