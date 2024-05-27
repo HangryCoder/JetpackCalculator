@@ -1,4 +1,4 @@
-package com.hangrycoder.jetpackcalculator.viewmodel
+package com.hangrycoder.jetpackcalculator.ui.viewmodel
 
 import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.LiveData

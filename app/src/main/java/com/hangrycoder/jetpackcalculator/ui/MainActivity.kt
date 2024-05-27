@@ -41,7 +41,7 @@ import com.hangrycoder.jetpackcalculator.data.model.CalculatorButton
 import com.hangrycoder.jetpackcalculator.ui.theme.JetpackCalculatorTheme
 import com.hangrycoder.jetpackcalculator.utils.NoRippleInteractionSource
 import com.hangrycoder.jetpackcalculator.utils.pressClickEffect
-import com.hangrycoder.jetpackcalculator.viewmodel.CalculatorViewModel
+import com.hangrycoder.jetpackcalculator.ui.viewmodel.CalculatorViewModel
 
 class MainActivity : ComponentActivity() {
 
