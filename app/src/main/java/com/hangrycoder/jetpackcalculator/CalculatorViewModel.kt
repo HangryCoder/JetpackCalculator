@@ -1,0 +1,46 @@
+package com.hangrycoder.jetpackcalculator
+
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+
+import kotlinx.coroutines.flow.consumeAsFlow
+import kotlinx.coroutines.launch
+
+class CalculatorViewModel() : ViewModel() {
+    val userIntent = Channel<UserIntent>(Channel.UNLIMITED)
+
+    private val _buttonsState = MutableStateFlow<ButtonState>(ButtonState.Idle)
+    val buttonsState: StateFlow<ButtonState>
+        get() = _buttonsState
+
+    private val _calculatedValue = MutableStateFlow("")
+    val calculatedValue: StateFlow<String>
+        get() = _calculatedValue
+
+    init {
+        handleUserIntent()
+    }
+
+    private fun handleUserIntent() {
+        viewModelScope.launch {
+            userIntent.consumeAsFlow().collect {
+                when (it) {
+                    is UserIntent.GetButtons -> {
+                        // getCalculatorButtons()
+                        _buttonsState.value =
+                            ButtonState.Buttons(CalculatorButtonsDataSource.getButtons())
+                    }
+
+                    is UserIntent.ClickButton -> {
+                        val calculatorButton = it.calculatorButton
+                        _calculatedValue.value += calculatorButton.title
+                    }
+                }
+            }
+        }
+    }
+
+}
