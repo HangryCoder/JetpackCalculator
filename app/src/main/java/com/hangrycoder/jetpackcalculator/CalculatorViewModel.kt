@@ -13,8 +13,7 @@ class CalculatorViewModel() : ViewModel() {
     val userIntent = Channel<UserIntent>(Channel.UNLIMITED)
 
     private val _buttonsState = MutableStateFlow<ButtonState>(ButtonState.Idle)
-    val buttonsState: StateFlow<ButtonState>
-        get() = _buttonsState
+    val buttonsState: StateFlow<ButtonState> by lazy { _buttonsState }
 
     private val _calculatedValue = MutableStateFlow("")
     val calculatedValue: StateFlow<String>
@@ -29,7 +28,6 @@ class CalculatorViewModel() : ViewModel() {
             userIntent.consumeAsFlow().collect {
                 when (it) {
                     is UserIntent.GetButtons -> {
-                        // getCalculatorButtons()
                         _buttonsState.value =
                             ButtonState.Buttons(CalculatorButtonsDataSource.getButtons())
                     }

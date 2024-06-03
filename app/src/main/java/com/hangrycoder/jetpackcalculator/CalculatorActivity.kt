@@ -16,6 +16,7 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -36,14 +37,17 @@ class CalculatorActivity : ComponentActivity() {
     @Composable
     fun Calculator(viewModel: CalculatorViewModel = androidx.lifecycle.viewmodel.compose.viewModel()) {
         val userIntent = viewModel.userIntent
-        val buttonState = viewModel.buttonsState
+        val buttonState = viewModel.buttonsState.collectAsState()
         val calculatedValue = viewModel.calculatedValue.collectAsState()
-
-        lifecycleScope.launch {
-            userIntent.send(UserIntent.GetButtons)
-        }
+        val scope = rememberCoroutineScope()
 
         when (buttonState.value) {
+            is ButtonState.Idle -> {
+                scope.launch {
+                    userIntent.send(UserIntent.GetButtons)
+                }
+            }
+
             is ButtonState.Buttons -> {
                 val buttons = (buttonState.value as ButtonState.Buttons).buttons
 
@@ -54,15 +58,11 @@ class CalculatorActivity : ComponentActivity() {
                 ) {
                     Display(calculatedValue.value)
                     Buttons(buttons, onClick = {
-                        lifecycleScope.launch {
+                        scope.launch {
                             userIntent.send(UserIntent.ClickButton(it))
                         }
                     })
                 }
-            }
-
-            else -> {
-                //Do Nothing
             }
         }
 
