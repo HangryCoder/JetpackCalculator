@@ -13,7 +13,7 @@ class CalculatorViewModel() : ViewModel() {
     val userIntent = Channel<UserIntent>(Channel.UNLIMITED)
 
     private val _buttonsState = MutableStateFlow<ButtonState>(ButtonState.Idle)
-    val buttonsState: StateFlow<ButtonState> by lazy { _buttonsState }
+    val buttonsState: StateFlow<ButtonState> by lazy {  _buttonsState }
 
     private val _calculatedValue = MutableStateFlow("")
     val calculatedValue: StateFlow<String>
@@ -36,6 +36,8 @@ class CalculatorViewModel() : ViewModel() {
                         val calculatorButton = it.calculatorButton
                         _calculatedValue.value += calculatorButton.title
                     }
+
+                    else -> {}
                 }
             }
         }

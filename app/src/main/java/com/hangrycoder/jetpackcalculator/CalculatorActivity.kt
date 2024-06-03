@@ -91,7 +91,7 @@ class CalculatorActivity : ComponentActivity() {
     @Composable
     fun Buttons(buttons: List<CalculatorButton>, onClick: (CalculatorButton) -> Unit) {
         LazyVerticalGrid(columns = GridCells.Fixed(4), content = {
-            items(buttons) {
+            items(items = buttons, key = { it.id }) {
                 Button(title = it.title) {
                     onClick(it)
                 }
