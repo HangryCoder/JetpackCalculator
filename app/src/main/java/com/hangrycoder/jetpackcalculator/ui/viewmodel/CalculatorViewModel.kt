@@ -4,6 +4,8 @@ import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.hangrycoder.jetpackcalculator.CalculatorIntent
 import com.hangrycoder.jetpackcalculator.ui.model.ButtonType
 import com.hangrycoder.jetpackcalculator.data.model.Calculator
 import com.hangrycoder.jetpackcalculator.ui.model.CalculatorButton
@@ -11,8 +13,13 @@ import com.hangrycoder.jetpackcalculator.data.datasource.CalculatorDataSource
 import com.hangrycoder.jetpackcalculator.data.model.Operation
 import com.hangrycoder.jetpackcalculator.utils.Constants
 import com.hangrycoder.jetpackcalculator.utils.roundOffDecimal
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.consumeAsFlow
+import kotlinx.coroutines.launch
 
 class CalculatorViewModel : ViewModel() {
+
+    val calculatorIntent = Channel<CalculatorIntent>(Channel.UNLIMITED)
 
     val buttonsList = CalculatorDataSource.getButtons()
 
@@ -21,6 +28,28 @@ class CalculatorViewModel : ViewModel() {
 
     private val operators = arrayListOf<Int>()
     private var clearDisplay = false
+
+    init {
+        handleIntent()
+    }
+
+    private fun handleIntent() {
+        viewModelScope.launch {
+            calculatorIntent
+                .consumeAsFlow()
+                .collect { calculatorIntent ->
+                    when (calculatorIntent) {
+                        is CalculatorIntent.GetButtons -> {
+
+                        }
+
+                        is CalculatorIntent.ClickButton -> {
+
+                        }
+                    }
+                }
+        }
+    }
 
     fun calculateOperation(calculatorButton: CalculatorButton) {
         when (calculatorButton.buttonType) {

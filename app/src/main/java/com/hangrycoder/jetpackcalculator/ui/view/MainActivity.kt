@@ -23,9 +23,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.Font
@@ -35,6 +38,7 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.hangrycoder.jetpackcalculator.CalculatorIntent
 import com.hangrycoder.jetpackcalculator.R
 import com.hangrycoder.jetpackcalculator.ui.model.ButtonType
 import com.hangrycoder.jetpackcalculator.ui.model.CalculatorButton
@@ -42,6 +46,7 @@ import com.hangrycoder.jetpackcalculator.ui.theme.JetpackCalculatorTheme
 import com.hangrycoder.jetpackcalculator.utils.NoRippleInteractionSource
 import com.hangrycoder.jetpackcalculator.utils.pressClickEffect
 import com.hangrycoder.jetpackcalculator.ui.viewmodel.CalculatorViewModel
+import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
 
@@ -64,6 +69,12 @@ class MainActivity : ComponentActivity() {
 fun CalculatorView(viewModel: CalculatorViewModel = viewModel()) {
 
     val calculatedValue by viewModel.calculation.observeAsState()
+    val calculatorIntent = viewModel.calculatorIntent
+    val scope = rememberCoroutineScope()
+
+    LaunchedEffect(key1 = calculatorIntent) {
+        calculatorIntent.send(CalculatorIntent.GetButtons)
+    }
 
     Column(modifier = Modifier.padding(16.dp)) {
         Column(modifier = Modifier.weight(1f)) {
@@ -75,7 +86,10 @@ fun CalculatorView(viewModel: CalculatorViewModel = viewModel()) {
                 .padding(0.dp, 16.dp, 0.dp, 16.dp)
         ) {
             Buttons(buttonsList = viewModel.buttonsList, onClick = {
-                viewModel.calculateOperation(it)
+               // viewModel.calculateOperation(it)
+                scope.launch {
+                    calculatorIntent.send(CalculatorIntent.ClickButton(it))
+                }
             })
         }
     }

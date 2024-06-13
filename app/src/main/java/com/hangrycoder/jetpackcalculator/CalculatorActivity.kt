@@ -22,7 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.lifecycleScope
+import com.hangrycoder.jetpackcalculator.ui.model.CalculatorButton
 import kotlinx.coroutines.launch
 
 class CalculatorActivity : ComponentActivity() {
@@ -45,7 +45,7 @@ class CalculatorActivity : ComponentActivity() {
         when (buttonState.value) {
             is ButtonState.Idle -> {
                 scope.launch {
-                    userIntent.send(UserIntent.GetButtons)
+                    userIntent.send(CalculatorIntent.GetButtons)
                 }
             }
 
@@ -60,7 +60,7 @@ class CalculatorActivity : ComponentActivity() {
                     Display(calculatedValue.value)
                     Buttons(buttons, onClick = {
                         scope.launch {
-                            userIntent.send(UserIntent.ClickButton(it))
+                            userIntent.send(CalculatorIntent.ClickButton(it))
                         }
                     })
                 }

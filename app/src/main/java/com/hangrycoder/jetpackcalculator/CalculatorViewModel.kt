@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.launch
 
 class CalculatorViewModel() : ViewModel() {
-    val userIntent = Channel<UserIntent>(Channel.UNLIMITED)
+    val userIntent = Channel<CalculatorIntent>(Channel.UNLIMITED)
 
     private val _buttonsState = MutableStateFlow<ButtonState>(ButtonState.Idle)
     val buttonsState: StateFlow<ButtonState> by lazy {  _buttonsState }
@@ -27,12 +27,12 @@ class CalculatorViewModel() : ViewModel() {
         viewModelScope.launch {
             userIntent.consumeAsFlow().collect {
                 when (it) {
-                    is UserIntent.GetButtons -> {
+                    is CalculatorIntent.GetButtons -> {
                         _buttonsState.value =
                             ButtonState.Buttons(CalculatorButtonsDataSource.getButtons())
                     }
 
-                    is UserIntent.ClickButton -> {
+                    is CalculatorIntent.ClickButton -> {
                         val calculatorButton = it.calculatorButton
                         _calculatedValue.value += calculatorButton.title
                     }
