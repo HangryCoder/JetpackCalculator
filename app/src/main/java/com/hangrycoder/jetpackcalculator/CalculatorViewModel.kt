@@ -2,6 +2,7 @@ package com.hangrycoder.jetpackcalculator
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.hangrycoder.jetpackcalculator.data.datasource.CalculatorDataSource
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -29,7 +30,7 @@ class CalculatorViewModel() : ViewModel() {
                 when (it) {
                     is CalculatorIntent.GetButtons -> {
                         _buttonsState.value =
-                            ButtonState.Buttons(CalculatorButtonsDataSource.getButtons())
+                            ButtonState.Buttons(CalculatorDataSource.getButtons())
                     }
 
                     is CalculatorIntent.ClickButton -> {
