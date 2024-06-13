@@ -37,6 +37,7 @@ class CalculatorActivity : ComponentActivity() {
     @Composable
     fun Calculator(viewModel: CalculatorViewModel = androidx.lifecycle.viewmodel.compose.viewModel()) {
         val userIntent = viewModel.userIntent
+        //collectAsStateWithLifecycle with flows
         val buttonState = viewModel.buttonsState.collectAsState()
         val calculatedValue = viewModel.calculatedValue.collectAsState()
         val scope = rememberCoroutineScope()
