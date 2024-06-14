@@ -5,8 +5,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.hangrycoder.jetpackcalculator.ButtonState
-import com.hangrycoder.jetpackcalculator.CalculatorIntent
+import com.hangrycoder.jetpackcalculator.state.ButtonState
+import com.hangrycoder.jetpackcalculator.intent.CalculatorIntent
 import com.hangrycoder.jetpackcalculator.ui.model.ButtonType
 import com.hangrycoder.jetpackcalculator.data.model.Calculator
 import com.hangrycoder.jetpackcalculator.ui.model.CalculatorButton
@@ -57,7 +57,7 @@ class CalculatorViewModel : ViewModel() {
         }
     }
 
-    fun calculateOperation(calculatorButton: CalculatorButton) {
+    private fun calculateOperation(calculatorButton: CalculatorButton) {
         when (calculatorButton.buttonType) {
             ButtonType.Operation -> {
                 insertOperator(calculatorButton)

@@ -1,4 +1,4 @@
-package com.hangrycoder.jetpackcalculator
+package com.hangrycoder.jetpackcalculator.intent
 
 import com.hangrycoder.jetpackcalculator.ui.model.CalculatorButton
 
